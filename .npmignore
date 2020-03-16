@@ -1,0 +1,60 @@
+# 忽略的文件夹
+###########################
+node_modules/
+public/
+examples/
+
+# 忽略的文件
+###########################
+vue.config.js
+babel.config.js
+
+# GIT/SVN generated files #
+###########################
+*.diff
+*.patch
+.svn/
+.git/
+
+# IDE generated files #
+#######################
+*.iml
+.idea/
+.ipr
+.iws
+*~
+~*
+.settings
+.project
+.lastbuildtime
+.*proj
+.deploy/
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
