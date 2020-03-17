@@ -20,9 +20,7 @@
         stripe
         v-loading="mLoading"
         :data="mDataSource"
-        @sort-change="onSortChange"
         v-bind="$attrs"
-        :default-sort="defaultSort"
         v-on="$listeners"
         :expand="expand"
         @cell-dblclick="celldbclick"
@@ -83,7 +81,8 @@ export default {
     expand: {
       type: Object,
       required: false
-    }
+    },
+    beforeLoad: Function
   },
   data() {
     return {
@@ -108,12 +107,12 @@ export default {
       return this.columns;
     }
   },
-  created() {
+  mounted() {
     if (this.$refs.searchForm) {
       this.queryParam = this.$refs.searchForm.getData();
     }
     this.setQueryParam();
-    this.loadData();
+    this.onBeforeLoad();
   },
   methods: {
     setQueryParam() {
@@ -146,6 +145,9 @@ export default {
               this.queryParam[tempField[1]]
             ];
           }
+        } else if (item.type == "cascader") {
+          let tempFields = item.field; //array
+          item["value"] = tempFields.map(key => this.queryParam[key]);
         }
       });
     },
@@ -154,23 +156,13 @@ export default {
       this.refresh(true);
     },
     /**
-     * @description: 排序改变事件
-     * @param {object} param {column, prop, order}
-     */
-    onSortChange(param) {
-      this.mPager.pageNo = 1;
-      const order = param.order == "descending" ? "DESC" : "ASC";
-      const sorter = { prop: param.prop, order: order };
-      this.loadData({ sorter: sorter });
-    },
-    /**
      * 显示条数改变
      * @param {Number} _pageSize
      */
     onPageSizeChange(_pageSize) {
       this.mPager["pageNo"] = 1;
       this.mPager["pageSize"] = _pageSize;
-      this.loadData();
+      this.onBeforeLoad();
     },
     /**
      * 分页的当前页改变时
@@ -178,9 +170,8 @@ export default {
      */
     onPageIndexChange(_pageNo) {
       this.mPager.pageNo = _pageNo;
-      this.loadData();
+      this.onBeforeLoad();
     },
-
     /**
      * 表格重新加载方法
      * @param {Boolean} bool 如果参数为 true, 则强制刷新到第一页
@@ -189,7 +180,20 @@ export default {
       if (bool) {
         this.mPager.pageNo = 1;
       }
-      this.loadData();
+      this.onBeforeLoad();
+    },
+    onBeforeLoad() {
+      const params = Object.assign(
+        {},
+        this.query,
+        this.mPager,
+        this.queryParam
+      );
+      if (typeof this.beforeLoad === "function") {
+        this.beforeLoad(params, this.loadData);
+      } else {
+        this.loadData(params);
+      }
     },
     /**
      * @description:加载数据方法
@@ -197,28 +201,14 @@ export default {
      * @param {Object} filter 过滤条件
      * @param {Object} sorter 排序条件
      */
-    loadData() {
+    loadData(params) {
       if (this.mLoading || !this.url) return;
       this.mLoading = true;
-      var _pager = this.mPager;
-      var _sorter = {};
-      if (this.defaultSort) {
-        const order = this.defaultSort.order == "descending" ? "DESC" : "ASC";
-        _sorter["order"] = order;
-        _sorter["sort"] = this.defaultSort.prop;
-      }
-      const parameter = Object.assign(
-        {},
-        this.query,
-        _pager,
-        _sorter || {},
-        this.queryParam
-      );
-      this.$emit("load", parameter);
+      this.$emit("load", params);
       const result = this.$http.get(this.url, {
-        params: parameter
+        params: params
       });
-      this.$router.replace({ query: parameter });
+      this.$router.replace({ query: params });
       // 对接自己的通用数据接口需要修改下方代码中的 r.pageNo, r.totalCount, r.data
       result
         .then(response => {

@@ -36,13 +36,18 @@
             v-else-if="item.type == 'date'"
             v-model="ruleForm[item.field]"
             type="daterange"
-            :range-separator="rangeSeparator"
             style="width:300px;"
-            :start-placeholder="startDate"
-            :end-placeholder="endDate"
             align="left"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
           ></el-date-picker>
+
+          <!-- cascader -->
+          <el-cascader
+            v-else-if="item.type == 'cascader'"
+            v-model="ruleForm[item.field]"
+            :options="item.options"
+            :placeholder="item.placeholder"
+          ></el-cascader>
         </el-form-item>
       </template>
       <el-form-item>
@@ -65,20 +70,21 @@ export default {
   data() {
     return {
       ruleForm: {},
-      defaultDateKey: ["startDate", "endDate"],
       loading: false
     };
   },
   created() {
-    this.rules.map(item => {
+    this.rules.forEach(item => {
       let defaultValue = item["value"] || "";
-      let field = item.field;
+      let field = item.field; //Sting,Array,
       if (item.type === "date") {
         if (typeof item.field === "string") {
           //兼容旧版
-          item.field = this.defaultDateKey;
+          item.field = ["startDate", "endDate"];
         }
-        field = item.field.join(",");
+        if (Array.isArray(item.field)) {
+          field = item.field.join(",");
+        }
         if (item.defaultValue === "today") {
           const date = new Date();
           const today = [
@@ -94,30 +100,24 @@ export default {
   },
   methods: {
     onSubmit() {
-      const queryParm = {};
-      for (const key in this.ruleForm) {
-        const value = this.ruleForm[key];
-        if (value && value.length > 0) {
-          if (value.constructor === Array) {
-            let dataKeys = key.split(",");
-            queryParm[dataKeys[0]] = value[0] + " 00:00:00";
-            queryParm[dataKeys[1]] = value[1] + " 23:59:59";
-          } else {
-            queryParm[key] = value;
-          }
-        }
-      }
+      const queryParm = this.getData();
       this.$emit("submit", queryParm);
     },
     getData() {
-      const queryParm = {};
-      for (const key in this.ruleForm) {
-        const value = this.ruleForm[key];
+      let queryParm = {};
+      for (let key in this.ruleForm) {
+        let value = this.ruleForm[key];
         if (value && value.length > 0) {
-          if (value.constructor === Array) {
-            let dataKeys = key.split(",");
-            queryParm[dataKeys[0]] = value[0] + " 00:00:00";
-            queryParm[dataKeys[1]] = value[1] + " 23:59:59";
+          if (Array.isArray(value)) {
+            let keys = key.split(",");
+            if (value.length === 2 && /00:00:00$/.test(value[1])) {
+              let tempEndDate = value[1];
+              tempEndDate = tempEndDate.replace("00:00:00", "23:59:59");
+              value[1] = tempEndDate;
+            }
+            keys.forEach((item, idx) => {
+              if (idx < value.length) queryParm[item] = value[idx];
+            });
           } else {
             queryParm[key] = value;
           }
