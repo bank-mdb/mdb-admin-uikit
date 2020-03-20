@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const mapById = {};
 export default {
-  name: "treeSelect",
+  name: "TreeSelect",
   props: {
     checkHalf: {
       type: Boolean,

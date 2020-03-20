@@ -15,7 +15,8 @@
           type="primary"
           v-if="empty.action.text"
           @click="toAction"
-        >{{ empty.action.text }}</el-button>
+          >{{ empty.action.text }}</el-button
+        >
       </div>
     </template>
     <!-- checkbox -->
@@ -27,7 +28,13 @@
       </template>
     </el-table-column>
     <!-- index -->
-    <el-table-column v-if="hasIndex" type="index" width="80" label="序号" align="center" />
+    <el-table-column
+      v-if="hasIndex"
+      type="index"
+      width="80"
+      label="序号"
+      align="center"
+    />
     <!-- 数据显示区 -->
     <template v-for="(col, index) in columns">
       <!-- other -->
@@ -40,6 +47,7 @@
         :sortable="col.sortable ? 'custom' : false"
         :fixed="col.actions ? 'right' : col.fixed || false"
         show-overflow-tooltip
+        :render-header="handleRenderHeader"
       >
         <template slot-scope="scope">
           <!-- //NO1.formatter -->
@@ -48,7 +56,12 @@
           </template>
           <!-- //NO2.自定义render -->
           <template v-else-if="col.render">
-            <colum-render :column="col" :row="scope.row" :render="col.render" :index="index"></colum-render>
+            <colum-render
+              :column="col"
+              :row="scope.row"
+              :render="col.render"
+              :index="index"
+            ></colum-render>
           </template>
           <template v-else-if="col.actions && col.actions.length > 0">
             <template v-for="(btn, idx) in col.actions">
@@ -59,8 +72,9 @@
                 size="mini"
                 style="margin:2px;"
                 round
-                @click="btn.click(index, scope.row,scope)"
-              >{{ btn.label }}</el-button>
+                @click="btn.click(index, scope.row, scope)"
+                >{{ btn.label }}</el-button
+              >
               <el-button
                 v-else
                 :key="idx"
@@ -68,9 +82,10 @@
                 size="mini"
                 style="margin:2px;"
                 round
-                v-show="btn.check(index, scope.row,scope)"
-                @click="btn.click(index, scope.row,scope)"
-              >{{ btn.label }}</el-button>
+                v-show="btn.check(index, scope.row, scope)"
+                @click="btn.click(index, scope.row, scope)"
+                >{{ btn.label }}</el-button
+              >
             </template>
           </template>
           <!-- //NO3 动态插槽 -->
@@ -92,8 +107,29 @@
 </template>
 
 <script>
-import columRender from "./ColumRender.js";
+// import columRender from "./ColumRender.js";
 import Vue from "vue";
+const columRender = {
+  name: "ColumRender",
+  functional: true,
+  props: {
+    row: Object,
+    render: Function,
+    index: Number,
+    column: {
+      type: Object,
+      default: null
+    }
+  },
+  render: (h, ctx) => {
+    const params = {
+      row: ctx.props.row,
+      index: ctx.props.index
+    };
+    if (ctx.props.column) params.column = ctx.props.column;
+    return ctx.props.render(h, params);
+  }
+};
 export default {
   name: "VTable",
   inheritAttrs: false,
@@ -130,6 +166,32 @@ export default {
     };
   },
   methods: {
+    handleRenderHeader(h, { column, $index }) {
+      let temp = this.columns[$index - 1];
+      if (!temp["tips"]) {
+        return column.label;
+      } else {
+        return [
+          column.label,
+          h(
+            "el-tooltip",
+            {
+              props: {
+                content: temp.tips,
+                placement: "top"
+              }
+            },
+            [
+              h("span", {
+                class: {
+                  "el-icon-question": true
+                }
+              })
+            ]
+          )
+        ];
+      }
+    },
     toAction() {
       if (this.empty && this.empty.action.link) {
         this.$router.push({ path: this.empty.action.link });

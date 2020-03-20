@@ -20,7 +20,7 @@ export default {
             return value;
           }
         },
-        { label: "姓名", prop: "name" },
+        { label: "姓名", prop: "name", tips: "hello" },
         { label: "地址", prop: "address" }
       ],
       tableData: [
