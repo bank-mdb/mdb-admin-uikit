@@ -105,31 +105,39 @@ export default {
     },
     getData() {
       let queryParm = {};
-      for (let key in this.ruleForm) {
+      Object.keys(this.ruleForm).forEach(key => {
         let value = this.ruleForm[key];
-        if (value && value.length > 0) {
-          if (Array.isArray(value)) {
-            let keys = key.split(",");
-            if (value.length === 2 && /00:00:00$/.test(value[1])) {
-              let tempEndDate = value[1];
-              tempEndDate = tempEndDate.replace("00:00:00", "23:59:59");
-              value[1] = tempEndDate;
-            }
-            keys.forEach((item, idx) => {
-              if (idx < value.length) queryParm[item] = value[idx];
-            });
-          } else {
-            queryParm[key] = value;
+        if (Array.isArray(value)) {
+          if (value.length === 2 && /00:00:00$/.test(value[1])) {
+            let tempEndDate = value[1];
+            tempEndDate = tempEndDate.replace("00:00:00", "23:59:59");
+            value[1] = tempEndDate;
           }
+          let keys = key.split(",");
+          keys.forEach((item, idx) => {
+            if (idx < value.length && value[idx]) queryParm[item] = value[idx];
+          });
+        } else {
+          if (value) queryParm[key] = value;
         }
-      }
+      });
       return queryParm;
     },
     resetForm() {
-      this.$refs.searchForm.resetFields();
-      this.rules.map(item => {
-        item["value"] = "";
-        this.ruleForm[item["field"]] = "";
+      //fixed:对于 date，cascader 的value必须是array
+      Object.keys(this.ruleForm).forEach(key => {
+        let value = this.ruleForm[key];
+        if (Array.isArray(value)) {
+          let isTypeDate = /00:00:00$/.test(value[0]);
+          if (isTypeDate) {
+            this.ruleForm[key] = "";
+          } else {
+            let tempKeys = key.split(",");
+            this.ruleForm[key] = new Array(tempKeys.length).fill("");
+          }
+        } else {
+          this.ruleForm[key] = "";
+        }
       });
       this.onSubmit();
     },

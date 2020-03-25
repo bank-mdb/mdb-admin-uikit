@@ -125,14 +125,14 @@ export default {
       delete query["pageSize"];
       this.queryParam = Object.assign({}, this.queryParam, query);
       Object.keys(this.queryParam).forEach(key => {
-        this.rules.map(item => {
+        this.rules.forEach(item => {
           if (item.field === key && this.queryParam[key]) {
             item["value"] = this.queryParam[key];
           }
         });
       });
       //针对日期类型
-      this.rules.map(item => {
+      this.rules.forEach(item => {
         if (item.type == "date") {
           let tempField = item.field; //array
           if (typeof item.field === "string") {
