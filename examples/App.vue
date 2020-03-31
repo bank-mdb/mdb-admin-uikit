@@ -8,6 +8,8 @@
     <VTableDemo></VTableDemo>
     <h2>SearchForm demo</h2>
     <SearchFormDemo></SearchFormDemo>
+    <h2>Extend demo</h2>
+    <div id="extend_div"></div>
   </div>
 </template>
 
@@ -15,10 +17,19 @@
 import TreeSelectDemo from "./components/TreeSelectDemo";
 import VTableDemo from "./components/VTableDemo";
 import SearchFormDemo from "./components/SearchFormDemo";
+
 export default {
   name: "App",
   components: { TreeSelectDemo, VTableDemo, SearchFormDemo }
 };
+import Vue from "vue";
+var Profile = Vue.extend({
+  template: "<p>{{firstName {{lastName}}</p>",
+  data: function() {
+    return { lastName: "wulin", firstName: "deng" };
+  }
+});
+new Profile().$mount(document.querySelector("#extend_div"));
 </script>
 
 <style>
