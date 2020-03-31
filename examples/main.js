@@ -6,6 +6,8 @@ import MdbUIKit from "@/index.js";
 
 Vue.use(MdbUIKit);
 Vue.use(ElementUI);
+// 对外暴露的方法如果常用的话可以添加到Vue原型链
+// Vue.prototype.socrllToErrorMessageItem = MdbUIKit.socrllToErrorMessageItem;
 
 Vue.config.productionTip = false;
 

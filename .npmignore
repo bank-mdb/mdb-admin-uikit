@@ -3,6 +3,7 @@
 node_modules/
 public/
 examples/
+.history/
 
 # 忽略的文件
 ###########################

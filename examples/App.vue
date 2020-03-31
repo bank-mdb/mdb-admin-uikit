@@ -8,8 +8,8 @@
     <VTableDemo></VTableDemo>
     <h2>SearchForm demo</h2>
     <SearchFormDemo></SearchFormDemo>
-    <h2>Extend demo</h2>
-    <div id="extend_div"></div>
+    <dy-form-demo></dy-form-demo>
+    <div style="height: 800px;"></div>
   </div>
 </template>
 
@@ -17,10 +17,10 @@
 import TreeSelectDemo from "./components/TreeSelectDemo";
 import VTableDemo from "./components/VTableDemo";
 import SearchFormDemo from "./components/SearchFormDemo";
-
+import DyFormDemo from "./components/DyFormDemo";
 export default {
   name: "App",
-  components: { TreeSelectDemo, VTableDemo, SearchFormDemo }
+  components: { TreeSelectDemo, VTableDemo, SearchFormDemo, DyFormDemo }
 };
 import Vue from "vue";
 var Profile = Vue.extend({

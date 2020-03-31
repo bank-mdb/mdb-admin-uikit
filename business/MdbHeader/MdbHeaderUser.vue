@@ -25,7 +25,7 @@
 <script>
 import routePath from "@/router/routePath";
 import store from "@/store";
-import LogoutDialog from "@/components/business/LogoutDialog";
+import LogoutDialog from "mdb-admin-uikit/business/LogoutDialog";
 export default {
   name: "HomeHeaderUser",
   data() {

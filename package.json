@@ -1,7 +1,7 @@
 {
   "name": "mdb-admin-uikit",
   "description": "后台ui库",
-  "version": "1.0.34",
+  "version": "1.0.40",
   "private": false,
   "author": "deng.wulin@mdb-fintech.com",
   "license": "ISC",
@@ -19,12 +19,8 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "element-ui": "^2.13.0",
-    "vue": "^2.6.11"
-  },
-  "peerDependencies": {
-    "element-ui": "^2.13.0",
-    "axios": "^0.18.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-scrollto": "^2.17.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.0",
