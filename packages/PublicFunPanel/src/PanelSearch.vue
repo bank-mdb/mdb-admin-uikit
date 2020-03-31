@@ -12,7 +12,7 @@
     <el-collapse-transition>
       <div class="result" v-if="showResult" :style="{width:`${inputWidth}px`}">
         <el-scrollbar :native="false" :noresize="false" tag="div">
-          <div :style="{'max-height':'500px'}">
+          <div class="panel-wrapper">
             <PanelItem
               title="为您找到相关结果："
               :isSearch="true"
@@ -71,7 +71,6 @@ export default {
   },
   mounted(){
     this.inputWidth = this.$refs.input.$el.clientWidth;
-    console.log('this.inputWidth',this.inputWidth);
   },
   watch: {
     authMenuList: {
@@ -93,7 +92,6 @@ export default {
     z-index: 2;
     top: 40px;
     width: 100%;
-    padding: 0px 0px 15px 10px;
     background: #fff;
     box-shadow: 0px 3px 13px 0px rgba(40, 72, 100, 0.22);
     border-radius: 5px;
@@ -105,6 +103,10 @@ export default {
       .empty-icon {
         font-size: 80px;
       }
+    }
+    .panel-wrapper{
+      max-height: 500px;
+      padding:0 10px; 
     }
   }
 }

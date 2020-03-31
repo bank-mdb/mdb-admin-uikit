@@ -46,7 +46,6 @@ export default {
   display: flex;
   width: 100%;
   height: 40px;
-  padding-right: 22px;
   line-height: 38px;
   border-bottom: 1px solid #efeeee;
   .text {
