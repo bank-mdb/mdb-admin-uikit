@@ -118,7 +118,7 @@ export default {
       this.$refs.elForm.validate(result => {
         if(result) {
           this.loading = true;
-          this.submitFunction();
+          this.submitFunction && this.submitFunction();
         } else {
           socrllToErrorMessageItem();
         }

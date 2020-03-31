@@ -1,8 +1,7 @@
 <template>
   <div class="dy-form-demo">
-    <div class="title">dy-form demo</div>
-    <dy-form ref="dyForm" label-position="right" :loading="loading" :submitFunction="submitHandle" :model="formModel" :formItems="formItems" label-width="130px"></dy-form>
-    <!-- <el-button type="primary" @click="submitHandle">提交</el-button> -->
+    <dy-form ref="dyForm" label-position="right" :model="formModel" :formItems="formItems" label-width="130px"></dy-form>
+    <el-button type="primary" @click="submitHandle">提交</el-button>
   </div>
 </template>
 <script>
@@ -16,7 +15,6 @@ export default {
         sex: 2,
         birthday: ""
       },
-      loading: false,
       formItems: [
         [
           {
@@ -101,10 +99,17 @@ export default {
     }
   },
   methods: {
-    submitHandle(){
+    async submitHandle(){
       try {
-        console.log("model", this.formModel);
-        this.$refs.dyForm.loading = false
+        this.$refs.dyForm.validate(res => {
+          if(res) {
+            console.log("成功");
+          } else {
+            socrllToErrorMessageItem();
+          }
+        })
+        // await validateForms(this.$refs.dyForm)
+        console.log("成功");
       } catch(err) {
         console.log("失败", err)
       }
@@ -116,11 +121,6 @@ export default {
 
 <style>
 .dy-form-demo .input-normal-size {
-  /* width: 300px; */
-}
-.dy-form-demo .title{
-   font-size: 30px;
-   font-weight: 550;
-   margin-bottom: 30px;
+  width: 300px;
 }
 </style>

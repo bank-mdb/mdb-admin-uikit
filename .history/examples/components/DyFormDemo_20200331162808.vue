@@ -1,6 +1,6 @@
 <template>
   <div class="dy-form-demo">
-    <div class="title">dy-form demo</div>
+    <div>dy-form demo</div>
     <dy-form ref="dyForm" label-position="right" :loading="loading" :submitFunction="submitHandle" :model="formModel" :formItems="formItems" label-width="130px"></dy-form>
     <!-- <el-button type="primary" @click="submitHandle">提交</el-button> -->
   </div>
@@ -117,10 +117,5 @@ export default {
 <style>
 .dy-form-demo .input-normal-size {
   /* width: 300px; */
-}
-.dy-form-demo .title{
-   font-size: 30px;
-   font-weight: 550;
-   margin-bottom: 30px;
 }
 </style>

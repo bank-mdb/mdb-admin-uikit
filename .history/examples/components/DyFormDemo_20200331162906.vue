@@ -119,8 +119,6 @@ export default {
   /* width: 300px; */
 }
 .dy-form-demo .title{
-   font-size: 30px;
-   font-weight: 550;
-   margin-bottom: 30px;
+   font-size: 20px;
 }
 </style>

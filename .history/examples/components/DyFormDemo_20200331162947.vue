@@ -120,7 +120,7 @@ export default {
 }
 .dy-form-demo .title{
    font-size: 30px;
-   font-weight: 550;
+   font-weight: 600;
    margin-bottom: 30px;
 }
 </style>

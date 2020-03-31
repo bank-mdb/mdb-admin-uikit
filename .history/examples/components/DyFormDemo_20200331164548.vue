@@ -1,7 +1,7 @@
 <template>
   <div class="dy-form-demo">
     <div class="title">dy-form demo</div>
-    <dy-form ref="dyForm" label-position="right" :loading="loading" :submitFunction="submitHandle" :model="formModel" :formItems="formItems" label-width="130px"></dy-form>
+    <dy-form ref="dyForm" label-position="right" :loading="loading"  :model="formModel" :formItems="formItems" label-width="130px"></dy-form>
     <!-- <el-button type="primary" @click="submitHandle">提交</el-button> -->
   </div>
 </template>
