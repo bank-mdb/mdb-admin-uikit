@@ -5,8 +5,9 @@ import AdvancedTable from "./AdvancedTable/index.js";
 import form from "./DyForm/index.js";
 import { socrllToErrorMessageItem } from "./DyForm/src/utils/index.js";
 import { validateForms } from "./DyForm/src/utils/index.js";
+import PublicFunPanel from "./PublicFunPanel/index.js";
 
-const components = [TreeSelect, VTable, SearchForm, AdvancedTable, form.dyForm];
+const components = [TreeSelect, VTable, SearchForm, AdvancedTable, form.dyForm,PublicFunPanel];
 
 // eslint-disable-next-line no-unused-vars
 const install = function(Vue, opts = {}) {
