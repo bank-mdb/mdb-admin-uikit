@@ -2,11 +2,8 @@ import TreeSelect from "./TreeSelect/index.js";
 import VTable from "./VTable/index.js";
 import SearchForm from "./SearchForm/index.js";
 import AdvancedTable from "./AdvancedTable/index.js";
-import form from "./DyForm/index.js";
-import {socrllToErrorMessageItem} from "./DyForm/src/utils/index.js";
-import {validateForms} from "./DyForm/src/utils/index.js";
 
-const components = [TreeSelect, VTable, SearchForm, AdvancedTable, form.dyForm];
+const components = [TreeSelect, VTable, SearchForm, AdvancedTable];
 
 // eslint-disable-next-line no-unused-vars
 const install = function(Vue, opts = {}) {
@@ -34,8 +31,5 @@ if (typeof window !== "undefined" && window.Vue) {
 
 export default {
   install,
-  nonRenderFormItem: form.nonRenderFormItem,
-  socrllToErrorMessageItem,
-  validateForms,
   ...components
 };

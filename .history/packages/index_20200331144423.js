@@ -4,7 +4,6 @@ import SearchForm from "./SearchForm/index.js";
 import AdvancedTable from "./AdvancedTable/index.js";
 import form from "./DyForm/index.js";
 import {socrllToErrorMessageItem} from "./DyForm/src/utils/index.js";
-import {validateForms} from "./DyForm/src/utils/index.js";
 
 const components = [TreeSelect, VTable, SearchForm, AdvancedTable, form.dyForm];
 
@@ -36,6 +35,5 @@ export default {
   install,
   nonRenderFormItem: form.nonRenderFormItem,
   socrllToErrorMessageItem,
-  validateForms,
   ...components
 };

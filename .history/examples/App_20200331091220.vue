@@ -8,8 +8,6 @@
     <VTableDemo></VTableDemo>
     <h2>SearchForm demo</h2>
     <SearchFormDemo></SearchFormDemo>
-    <dy-form-demo></dy-form-demo>
-    <div style="height: 800px;"></div>
   </div>
 </template>
 
@@ -17,10 +15,9 @@
 import TreeSelectDemo from "./components/TreeSelectDemo";
 import VTableDemo from "./components/VTableDemo";
 import SearchFormDemo from "./components/SearchFormDemo";
-import DyFormDemo from "./components/DyFormDemo";
 export default {
   name: "App",
-  components: { TreeSelectDemo, VTableDemo, SearchFormDemo, DyFormDemo }
+  components: { TreeSelectDemo, VTableDemo, SearchFormDemo }
 };
 </script>
 

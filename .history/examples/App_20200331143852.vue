@@ -9,7 +9,6 @@
     <h2>SearchForm demo</h2>
     <SearchFormDemo></SearchFormDemo>
     <dy-form-demo></dy-form-demo>
-    <div style="height: 800px;"></div>
   </div>
 </template>
 

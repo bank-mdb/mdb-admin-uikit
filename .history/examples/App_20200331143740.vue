@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <dy-form-demo></dy-form-demo>
     <img alt="Vue logo" src="./assets/logo.png" />
     <p>欢迎使用Vue组件库项目</p>
     <h2>TreeSelectDemo demo</h2>
@@ -8,8 +9,6 @@
     <VTableDemo></VTableDemo>
     <h2>SearchForm demo</h2>
     <SearchFormDemo></SearchFormDemo>
-    <dy-form-demo></dy-form-demo>
-    <div style="height: 800px;"></div>
   </div>
 </template>
 
