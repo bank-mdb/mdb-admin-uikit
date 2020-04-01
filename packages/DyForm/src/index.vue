@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dy-form-panel">
     <el-form
       ref="elForm"
       :model="model"
@@ -90,10 +90,7 @@ export default {
       type: Boolean,
       default: true
     },
-    submitFunction: {
-      type: Function,
-      required: true
-    },
+    submitFunction: Function,
     submitButtonContent: {
       type: String,
       default: "确认"
@@ -118,7 +115,7 @@ export default {
       this.$refs.elForm.validate(result => {
         if(result) {
           this.loading = true;
-          this.submitFunction();
+          this.submitFunction && this.submitFunction();
         } else {
           socrllToErrorMessageItem();
         }
@@ -128,6 +125,15 @@ export default {
 }
 </script>
 <style scoped>
+.dy-form-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dy-form {
+  width: 100%;
+}
 .submit-button {
   width: 150px;
   margin-top: 50px;
