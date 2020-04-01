@@ -32,7 +32,7 @@ export default {
     };
   },
   props: {
-    authMenuList: {
+    functions: {
       type: Array,
       default: () => []
     },
@@ -58,6 +58,14 @@ export default {
     };
   },
   computed: {
+    authMenuList(){
+      return this.functions.map(item=>{
+        return {
+          ...item,
+          path: `/${item.url.replace(/_+/g, "-")}`,
+        }
+      });
+    },
     features() {
       let CollectedFeatures = this.authMenuList.filter(
         item => item.icon === "true"
