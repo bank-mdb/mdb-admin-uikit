@@ -22,6 +22,14 @@ export default {
   name: "App",
   components: { TreeSelectDemo, VTableDemo, SearchFormDemo, DyFormDemo }
 };
+import Vue from "vue";
+var Profile = Vue.extend({
+  template: "<p>{{firstName {{lastName}}</p>",
+  data: function() {
+    return { lastName: "wulin", firstName: "deng" };
+  }
+});
+new Profile().$mount(document.querySelector("#extend_div"));
 </script>
 
 <style>

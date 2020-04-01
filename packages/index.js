@@ -3,8 +3,8 @@ import VTable from "./VTable/index.js";
 import SearchForm from "./SearchForm/index.js";
 import AdvancedTable from "./AdvancedTable/index.js";
 import form from "./DyForm/index.js";
-import {socrllToErrorMessageItem} from "./DyForm/src/utils/index.js";
-import {validateForms} from "./DyForm/src/utils/index.js";
+import { socrllToErrorMessageItem } from "./DyForm/src/utils/index.js";
+import { validateForms } from "./DyForm/src/utils/index.js";
 
 const components = [TreeSelect, VTable, SearchForm, AdvancedTable, form.dyForm];
 
@@ -14,18 +14,6 @@ const install = function(Vue, opts = {}) {
     Vue.component(component.name, component);
   });
 };
-
-//method 2 这样就写了大量重复的代码,利用 require.context 可以写成
-// const path = require("path");
-// const files = require.context("@/components/home", false, /\.vue$/);
-// let modules = {};
-// files.keys().forEach(key => {
-//   const name = path.basename(key, ".vue");
-//   modules[name] = files(key).default || files(key);
-// });
-
-// //Applications
-// const components = modules;
 
 /* 支持使用标签的方式引入 */
 if (typeof window !== "undefined" && window.Vue) {
