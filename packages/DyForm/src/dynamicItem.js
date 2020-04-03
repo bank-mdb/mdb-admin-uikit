@@ -5,7 +5,8 @@ import {
   MdbColDatePicker,
   MdbColLabel,
   MdbColSelect,
-  MdbColTitle
+  MdbColTitle,
+  MdbColCaptcha
 } from "./components/index";
 import { createChildrenElements } from "./utils/index.js";
 
@@ -18,7 +19,8 @@ export default {
     MdbColDatePicker,
     MdbColLabel,
     MdbColSelect,
-    MdbColTitle
+    MdbColTitle,
+    MdbColCaptcha
   },
   inject: ["fatherForm"],
   props: {
