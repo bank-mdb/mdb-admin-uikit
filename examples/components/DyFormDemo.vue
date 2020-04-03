@@ -51,6 +51,19 @@ export default {
         ],
         [
           {
+      type: "MdbColCaptcha",
+      label: "",
+      prop: "emailCaptcha",
+      props: {
+        sendTo: "name",
+        sendType: "email",
+        biz: "注册账号",
+        inputClass: "input-normal-size"
+      }
+    }
+        ],
+        [
+          {
             type: "el-select",
             label: "性别",
             prop: "sex",

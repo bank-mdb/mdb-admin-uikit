@@ -1,3 +1,9 @@
+### Features
+- 增加 dy-form中的 MdbColCaptcha 组件
+## 2020-04-03
+
+### Features
+- 新增功能组件。PublicFunPanel
 ## 1.0.31 (2020-03-27)
 
 ### Features
