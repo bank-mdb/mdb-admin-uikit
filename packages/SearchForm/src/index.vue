@@ -21,10 +21,13 @@
             v-else-if="item.type == 'select'"
             v-model="ruleForm[item.field]"
             :placeholder="item.placeholder"
-            @change="onSubmit"
+            :filterable="item.filterable || false"
+            :clearable="item.clearable || true"
+            :remote="item.remote || false"
+            :remote-method="item.filter"
           >
             <el-option
-              v-for="option in parseOption(item.options, item.options)"
+              v-for="option in parseOption(item.options, item)"
               :key="option.key"
               :label="option.label"
               :value="option.value"
@@ -79,7 +82,7 @@ export default {
   data() {
     return {
       ruleForm: {},
-      loading: false,
+      selectOptions: [],
     };
   },
   created() {
@@ -150,17 +153,29 @@ export default {
       });
       this.onSubmit();
     },
-    parseOption(_obj, option) {
-      const optionsObj = _obj || option;
+    parseOption(option) {
+      if (Array.isArray(option)) return option;
       const options = [];
-      for (let key in optionsObj) {
+      for (let key in option) {
         options.push({
           value: key,
-          label: _obj[key],
-          key: this._uid + "-" + key,
+          label: option[key],
         });
       }
       return options;
+    },
+    bindSelectChange() {
+      const queryParm = this.getData();
+      this.$emit("change", queryParm);
+    },
+    optionKey(key) {
+      return this._uid + "- " + key;
+    },
+    remoteMethod(query) {
+      console.log("remoteMethod: ", query, arguments);
+      // if (typeof item.filter === "function") {
+      //   item.options = item.filter(query);
+      // }
     },
   },
 };

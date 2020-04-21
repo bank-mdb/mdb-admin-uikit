@@ -1,3 +1,9 @@
+## v1.0.48（2020-04-21）
+
+### Features
+
+- 增加 SearchForm 的下拉刷选搜索功能。增加 filter，remote 属性，filter 的方法。
+
 ## 2020-04-03
 
 ### Features
