@@ -6,8 +6,19 @@ import form from "./DyForm/index.js";
 import { socrllToErrorMessageItem } from "./DyForm/src/utils/index.js";
 import { validateForms } from "./DyForm/src/utils/index.js";
 import PublicFunPanel from "./PublicFunPanel/index.js";
+import Drawer from "./Drawer/index.js";
+import DetailList from "./DetailList/index.js";
 
-const components = [TreeSelect, VTable, SearchForm, AdvancedTable, form.dyForm,PublicFunPanel];
+const components = [
+  TreeSelect,
+  VTable,
+  SearchForm,
+  AdvancedTable,
+  form.dyForm,
+  PublicFunPanel,
+  Drawer,
+  DetailList
+];
 
 // eslint-disable-next-line no-unused-vars
 const install = function(Vue, opts = {}) {

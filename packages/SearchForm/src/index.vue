@@ -41,6 +41,15 @@
             value-format="yyyy-MM-dd HH:mm:ss"
           ></el-date-picker>
 
+          <!-- 单个日期 -->
+          <el-date-picker
+            v-else-if="item.type == 'singleDate'"
+            v-model="ruleForm[item.field]"
+            type="date"
+            align="left"
+            value-format="yyyy-MM-dd"
+          ></el-date-picker>
+
           <!-- cascader -->
           <el-cascader
             v-else-if="item.type == 'cascader'"
@@ -64,17 +73,17 @@ export default {
   name: "SearchForm",
   props: {
     rules: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   data() {
     return {
       ruleForm: {},
-      loading: false
+      loading: false,
     };
   },
   created() {
-    this.rules.forEach(item => {
+    this.rules.forEach((item) => {
       let defaultValue = item["value"] || "";
       let field = item.field; //Sting,Array,
       if (item.type === "date") {
@@ -90,7 +99,7 @@ export default {
           const today = [
             date.getFullYear(),
             date.getMonth(),
-            date.getDate()
+            date.getDate(),
           ].join("-");
           defaultValue = [today, today];
         }
@@ -105,7 +114,7 @@ export default {
     },
     getData() {
       let queryParm = {};
-      Object.keys(this.ruleForm).forEach(key => {
+      Object.keys(this.ruleForm).forEach((key) => {
         let value = this.ruleForm[key];
         if (Array.isArray(value)) {
           if (value.length === 2 && /00:00:00$/.test(value[1])) {
@@ -125,7 +134,7 @@ export default {
     },
     resetForm() {
       //fixed:对于 date，cascader 的value必须是array
-      Object.keys(this.ruleForm).forEach(key => {
+      Object.keys(this.ruleForm).forEach((key) => {
         let value = this.ruleForm[key];
         if (Array.isArray(value)) {
           let isTypeDate = /00:00:00$/.test(value[0]);
@@ -148,12 +157,12 @@ export default {
         options.push({
           value: key,
           label: _obj[key],
-          key: this._uid + "-" + key
+          key: this._uid + "-" + key,
         });
       }
       return options;
-    }
-  }
+    },
+  },
 };
 </script>
 

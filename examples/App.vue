@@ -10,7 +10,8 @@
     <SearchFormDemo></SearchFormDemo>
     <dy-form-demo></dy-form-demo>
     <PublicFunPanelDemo></PublicFunPanelDemo>
-    <div style="height: 800px;"></div>
+    <h2>DetailList demo</h2>
+    <DetailListDemo></DetailListDemo>
   </div>
 </template>
 
@@ -20,9 +21,17 @@ import VTableDemo from "./components/VTableDemo";
 import SearchFormDemo from "./components/SearchFormDemo";
 import DyFormDemo from "./components/DyFormDemo";
 import PublicFunPanelDemo from "./components/PublicFunPanelDemo";
+import DetailListDemo from "./components/DetailListDemo";
 export default {
   name: "App",
-  components: { TreeSelectDemo, VTableDemo, SearchFormDemo, DyFormDemo,PublicFunPanelDemo }
+  components: {
+    TreeSelectDemo,
+    VTableDemo,
+    SearchFormDemo,
+    DyFormDemo,
+    PublicFunPanelDemo,
+    DetailListDemo
+  }
 };
 import Vue from "vue";
 var Profile = Vue.extend({
