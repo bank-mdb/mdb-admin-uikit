@@ -18,31 +18,31 @@ export default {
         country: "zh",
         file: {
           fileName: "身份证",
-          fileUrl: "http://wwww.sssx.com/da/xxxxxx.jpb"
+          fileUrl: "http://wwww.sssx.com/da/xxxxxx.jpb",
         },
         deepObj: {
           habby: "篮球",
           feature: {
-            test: "ddd"
-          }
-        }
+            test: "ddd",
+          },
+        },
       },
       rules: [
         { label: "姓名", prop: "name" },
         {
           label: "性别",
-          prop: row => {
+          prop: (row) => {
             return row.sex == 0 ? "男" : "女";
-          }
+          },
         },
         { label: "国籍", prop: "deepObj.feature.test" },
         {
           label: "身份证",
-          prop: "file.fileName"
-        }
-      ]
+          prop: "file.fileName",
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 

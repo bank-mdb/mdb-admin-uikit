@@ -7,11 +7,11 @@ module.exports = {
     index: {
       entry: "examples/main.js",
       template: "public/index.html",
-      filename: "index.html"
-    }
+      filename: "index.html",
+    },
   },
   css: {
-    extract: false
+    extract: false,
   },
   configureWebpack: {
     resolve: {
@@ -19,21 +19,21 @@ module.exports = {
       alias: {
         "@": resolve("packages"),
         assets: resolve("examples/assets"),
-        views: resolve("examples/views")
-      }
+        views: resolve("examples/views"),
+      },
     },
     output: {
-      libraryExport: "default"
-    }
+      libraryExport: "default",
+    },
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.module
       .rule("js")
       .include.add("/packages")
       .end()
       .use("babel")
       .loader("babel-loader")
-      .tap(options => {
+      .tap((options) => {
         return options;
       });
   },
@@ -42,6 +42,6 @@ module.exports = {
   devServer: {
     port: 8091,
     hot: true,
-    open: "Google Chrome"
-  }
+    open: "Google Chrome",
+  },
 };

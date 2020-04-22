@@ -17,6 +17,7 @@
     "lib": "vue-cli-service build --target lib --name mdb-admin-uikit --dest lib packages/index.js"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.4",
     "element-ui": "^2.13.0",
     "vue": "^2.6.11",

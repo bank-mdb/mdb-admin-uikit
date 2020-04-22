@@ -5,48 +5,48 @@ export default {
   props: {
     checkHalf: {
       type: Boolean,
-      default: false
+      default: false,
     },
     /*select属性*/
     value: {
-      required: true
+      required: true,
     },
     clearable: Boolean,
     placeholder: {
       type: String,
-      default: "请选择"
+      default: "请选择",
     },
     size: {
       type: String,
-      default: "mini"
+      default: "mini",
     },
     filterable: Boolean,
     popperAppendToBody: Boolean,
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     /*tree属性*/
     nodeKey: {
       type: String,
-      default: "id"
+      default: "id",
     },
     checkStrictly: Boolean,
     data: {
-      type: Array
+      type: Array,
     },
     props: {
       default() {
         return {};
-      }
+      },
     },
     showCheckbox: {
       type: Boolean,
-      default: false
+      default: false,
     },
     defaultExpandAll: Boolean,
-    defaultExpandedKeys: Array
+    defaultExpandedKeys: Array,
   },
   data() {
     return {
@@ -59,8 +59,8 @@ export default {
         children: "children",
         label: "label",
         disabled: "disabled",
-        pid: "pid" //父级ID
-      }
+        pid: "pid", //父级ID
+      },
     };
   },
   watch: {
@@ -95,7 +95,7 @@ export default {
             this.setCurrentKey(this.isEmpty(newValue) ? null : newValue, false);
           }
         }
-      }
+      },
     },
     data: {
       deep: true,
@@ -110,7 +110,7 @@ export default {
             );
           }
         }
-      }
+      },
     },
     multiple(boolean) {
       if (boolean) this.label = [];
@@ -119,7 +119,7 @@ export default {
       this.expandOnClickNode = this.multiple = this.collapseTags = boolean;
       this.highlightCurrent = !boolean;
       this.label = boolean ? [] : "";
-    }
+    },
   },
   created() {
     this.mergeProps = Object.assign({}, this.mergeProps, this.props);
@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     mapDataById(data) {
-      data.forEach(item => {
+      data.forEach((item) => {
         mapById[item.id] = item;
         if (item[this.mergeProps.children]) {
           this.mapDataById(item[this.mergeProps.children]);
@@ -163,7 +163,7 @@ export default {
       //复选框时，checkStrictly:true时父节点的选择影响子节点，子节点的选择不影响父节点;false=父子互相关联
       if (this.checkStrictly) {
         //不关联
-        data.forEach(item => {
+        data.forEach((item) => {
           if (item[this.mergeProps.label] != tag) {
             keys.push(item[this.nodeKey]);
           }
@@ -184,7 +184,7 @@ export default {
         //获取过滤的子级id
         let getChildrenIds = function(data) {
           let ids = [];
-          data.forEach(item => {
+          data.forEach((item) => {
             ids.push(item[self.nodeKey]);
             if (
               Array.isArray(item[self.mergeProps.children]) &&
@@ -229,11 +229,11 @@ export default {
             break;
           }
         }
-        keys = checkedIds.filter(id => !removeIds.includes(id));
+        keys = checkedIds.filter((id) => !removeIds.includes(id));
 
         //显示文本信息处理
         let labels = [];
-        data.forEach(item => {
+        data.forEach((item) => {
           if (keys.includes(item[this.nodeKey])) {
             labels.push(item[this.mergeProps.label]);
           }
@@ -314,7 +314,7 @@ export default {
           currendChidenIds = []; //当前节点子节点id数组
         let checkedLabelArray = []; //当前树的选择节点名称
         //获取子树id
-        let getIds = array => {
+        let getIds = (array) => {
           let checkedIds = [];
           if (Array.isArray(array) && array.length) {
             for (let item of array) {
@@ -333,7 +333,7 @@ export default {
         };
 
         //获取父节点id
-        let getParentIds = data => {
+        let getParentIds = (data) => {
           let checkedIds = [];
           if (data[this.mergeProps.pid]) {
             checkedIds.push(data[this.mergeProps.pid]);
@@ -373,22 +373,24 @@ export default {
           //将子节点所有关联的父节点都选中直到顶部
           if (this.checkHalf) {
             checkedArray = getParentIds(data);
-            const keys = checkedNodes.map(item => item[this.nodeKey]);
+            const keys = checkedNodes.map((item) => item[this.nodeKey]);
             checkedArray = checkedArray.concat(keys);
             this.setCheckedKeys(checkedArray);
           } else {
-            this.label = checkedNodes.map(item => item[this.mergeProps.label]);
+            this.label = checkedNodes.map(
+              (item) => item[this.mergeProps.label]
+            );
             this.$emit(
               "input",
-              checkedNodes.map(item => item[this.nodeKey])
+              checkedNodes.map((item) => item[this.nodeKey])
             );
           }
         }
       } else {
-        this.label = checkedNodes.map(item => item[this.mergeProps.label]);
+        this.label = checkedNodes.map((item) => item[this.mergeProps.label]);
         this.$emit(
           "input",
-          checkedNodes.map(item => item[this.nodeKey])
+          checkedNodes.map((item) => item[this.nodeKey])
         );
       }
     },
@@ -442,11 +444,11 @@ export default {
         if (this.showCheckbox) {
           this.$refs.tree.setCheckedKeys(keys, leafOnly);
           const nodes = this.$refs.tree.getCheckedNodes();
-          this.label = nodes.map(item => item[this.mergeProps.label]);
+          this.label = nodes.map((item) => item[this.mergeProps.label]);
           if (emit) {
             this.$emit(
               "input",
-              nodes.map(item => item[this.nodeKey])
+              nodes.map((item) => item[this.nodeKey])
             );
           }
         }
@@ -494,6 +496,6 @@ export default {
      */
     setCurrentNode(node) {
       this.$refs.tree.setCurrentNode(node);
-    }
-  }
+    },
+  },
 };
