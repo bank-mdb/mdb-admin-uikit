@@ -6,7 +6,8 @@ import {
   MdbColLabel,
   MdbColSelect,
   MdbColTitle,
-  MdbColCaptcha
+  MdbColCaptcha,
+  AmountInput
 } from "./components/index";
 import { createChildrenElements } from "./utils/index.js";
 
@@ -20,7 +21,8 @@ export default {
     MdbColLabel,
     MdbColSelect,
     MdbColTitle,
-    MdbColCaptcha
+    MdbColCaptcha,
+    AmountInput
   },
   inject: ["fatherForm"],
   props: {
