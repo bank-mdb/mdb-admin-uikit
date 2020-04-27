@@ -1,3 +1,15 @@
+## v1.0.52（2020-04-27）
+
+### Features
+
+- 增加 SearchForm 的 range 范围类型。
+
+## v1.0.51（2020-04-27）
+
+### Features
+
+- 增加 AdvancedTable 的 load-before,load-success,load-error 增加三个事件。
+
 ## v1.0.48（2020-04-21）
 
 ### Features

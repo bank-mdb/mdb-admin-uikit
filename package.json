@@ -1,11 +1,11 @@
 {
   "name": "mdb-admin-uikit",
   "description": "后台ui库",
-  "version": "1.0.48",
+  "version": "1.0.52",
   "private": false,
   "author": "deng.wulin@mdb-fintech.com",
   "license": "ISC",
-  "main": "lib/mdb-admin-uikit.common.js",
+  "main": "lib/mdb-admin-uikit.umd.js",
   "keyword": [
     "element",
     "vue",

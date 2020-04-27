@@ -60,6 +60,29 @@
             :options="item.options"
             :placeholder="item.placeholder"
           ></el-cascader>
+          <!-- input range -->
+          <el-row v-else-if="item.type == 'range'">
+            <el-col :span="11">
+              <el-input
+                v-model.trim="ruleForm[item.field[0]]"
+                :placeholder="rangePlaceHolder(item.placeholder, 0)"
+              >
+                <template v-if="item.prepend" slot="prepend">{{
+                  item.prepend
+                }}</template>
+              </el-input>
+            </el-col>
+            <el-col class="line" :span="1">-</el-col>
+            <el-col :span="11">
+              <el-input
+                v-model.trim="ruleForm[item.field[1]]"
+                :placeholder="rangePlaceHolder(item.placeholder, 1)"
+                ><template v-if="item.prepend" slot="prepend">{{
+                  item.prepend
+                }}</template>
+              </el-input>
+            </el-col>
+          </el-row>
         </el-form-item>
       </template>
       <el-form-item>
@@ -71,9 +94,9 @@
 </template>
 
 <script>
-import Vue from "vue";
+import Vue from 'vue'
 export default {
-  name: "SearchForm",
+  name: 'SearchForm',
   props: {
     rules: {
       type: Array,
@@ -83,102 +106,112 @@ export default {
     return {
       ruleForm: {},
       selectOptions: [],
-    };
+    }
   },
   created() {
     this.rules.forEach((item) => {
-      let defaultValue = item["value"] || "";
-      let field = item.field; //Sting,Array,
-      if (item.type === "date") {
-        if (typeof item.field === "string") {
+      let defaultValue = item['value'] || ''
+      let field = item.field //Sting,Array,
+      if (item.type === 'date') {
+        if (typeof item.field === 'string') {
           //兼容旧版
-          item.field = ["startDate", "endDate"];
+          item.field = ['startDate', 'endDate']
         }
         if (Array.isArray(item.field)) {
-          field = item.field.join(",");
+          field = item.field.join(',')
         }
-        if (item.defaultValue === "today") {
-          const date = new Date();
+        if (item.defaultValue === 'today') {
+          const date = new Date()
           const today = [
             date.getFullYear(),
             date.getMonth(),
             date.getDate(),
-          ].join("-");
-          defaultValue = [today, today];
+          ].join('-')
+          defaultValue = [today, today]
         }
+        Vue.set(this.ruleForm, field, defaultValue)
+      } else if (item.type === 'range' && Array.isArray(item.field)) {
+        let values = Array.isArray(item.value) ? item.value : ['', '']
+        Vue.set(this.ruleForm, item.field[0], values[0])
+        Vue.set(this.ruleForm, item.field[1], values[1])
+      } else {
+        Vue.set(this.ruleForm, field, defaultValue)
       }
-      Vue.set(this.ruleForm, field, defaultValue);
-    });
+    })
   },
   methods: {
     onSubmit() {
-      const queryParm = this.getData();
-      this.$emit("submit", queryParm);
+      const queryParm = this.getData()
+      this.$emit('submit', queryParm)
     },
     getData() {
-      let queryParm = {};
+      let queryParm = {}
       Object.keys(this.ruleForm).forEach((key) => {
-        let value = this.ruleForm[key];
+        let value = this.ruleForm[key]
         if (Array.isArray(value)) {
           if (value.length === 2 && /00:00:00$/.test(value[1])) {
-            let tempEndDate = value[1];
-            tempEndDate = tempEndDate.replace("00:00:00", "23:59:59");
-            value[1] = tempEndDate;
+            let tempEndDate = value[1]
+            tempEndDate = tempEndDate.replace('00:00:00', '23:59:59')
+            value[1] = tempEndDate
           }
-          let keys = key.split(",");
+          let keys = key.split(',')
           keys.forEach((item, idx) => {
-            if (idx < value.length && value[idx]) queryParm[item] = value[idx];
-          });
+            if (idx < value.length && value[idx]) queryParm[item] = value[idx]
+          })
         } else {
-          if (value) queryParm[key] = value;
+          if (value) queryParm[key] = value
         }
-      });
-      return queryParm;
+      })
+      return queryParm
     },
     resetForm() {
       //fixed:对于 date，cascader 的value必须是array
       Object.keys(this.ruleForm).forEach((key) => {
-        let value = this.ruleForm[key];
+        let value = this.ruleForm[key]
         if (Array.isArray(value)) {
-          let isTypeDate = /00:00:00$/.test(value[0]);
+          let isTypeDate = /00:00:00$/.test(value[0])
           if (isTypeDate) {
-            this.ruleForm[key] = "";
+            this.ruleForm[key] = ''
           } else {
-            let tempKeys = key.split(",");
-            this.ruleForm[key] = new Array(tempKeys.length).fill("");
+            let tempKeys = key.split(',')
+            this.ruleForm[key] = new Array(tempKeys.length).fill('')
           }
         } else {
-          this.ruleForm[key] = "";
+          this.ruleForm[key] = ''
         }
-      });
-      this.onSubmit();
+      })
+      this.onSubmit()
     },
     parseOption(option) {
-      if (Array.isArray(option)) return option;
-      const options = [];
+      if (Array.isArray(option)) return option
+      const options = []
       for (let key in option) {
         options.push({
           value: key,
           label: option[key],
-        });
+        })
       }
-      return options;
+      return options
     },
     bindSelectChange() {
-      const queryParm = this.getData();
-      this.$emit("change", queryParm);
+      const queryParm = this.getData()
+      this.$emit('change', queryParm)
     },
     optionKey(key) {
-      return this._uid + "- " + key;
+      return this._uid + '- ' + key
     },
     remoteMethod(query) {
-      console.log("remoteMethod: ", query, arguments);
+      console.log('remoteMethod: ', query, arguments)
       // if (typeof item.filter === "function") {
       //   item.options = item.filter(query);
       // }
     },
+    rangePlaceHolder(placeholder, index) {
+      if (Array.isArray(placeholder)) return placeholder[index]
+      return placeholder
+    },
   },
-};
+}
 </script>
 
 <style lang="scss">

@@ -1,6 +1,6 @@
-const path = require("path");
-function resolve(dir) {
-  return path.resolve(__dirname, dir);
+const path = require("path")
+function resolve (dir) {
+  return path.resolve(__dirname, dir)
 }
 module.exports = {
   pages: {
@@ -34,8 +34,8 @@ module.exports = {
       .use("babel")
       .loader("babel-loader")
       .tap((options) => {
-        return options;
-      });
+        return options
+      })
   },
   outputDir: "lib",
   productionSourceMap: false,
@@ -44,4 +44,4 @@ module.exports = {
     hot: true,
     open: "Google Chrome",
   },
-};
+}
