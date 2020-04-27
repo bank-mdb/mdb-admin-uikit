@@ -12,6 +12,10 @@
     <PublicFunPanelDemo></PublicFunPanelDemo>
     <h2>DetailList demo</h2>
     <DetailListDemo></DetailListDemo>
+    <h2>TheFooter demo</h2>
+    <TheFooterDemo></TheFooterDemo>
+    <h2>MdbHeaderDemo demo</h2>
+    <MdbHeaderDemo></MdbHeaderDemo>
   </div>
 </template>
 
@@ -22,6 +26,8 @@ import SearchFormDemo from "./components/SearchFormDemo";
 import DyFormDemo from "./components/DyFormDemo";
 import PublicFunPanelDemo from "./components/PublicFunPanelDemo";
 import DetailListDemo from "./components/DetailListDemo";
+import TheFooterDemo from "./components/TheFooterDemo";
+import MdbHeaderDemo from "./components/MdbHeaderDemo";
 export default {
   name: "App",
   components: {
@@ -31,7 +37,9 @@ export default {
     DyFormDemo,
     PublicFunPanelDemo,
     DetailListDemo,
-  },
+    TheFooterDemo,
+    MdbHeaderDemo
+  }
 };
 </script>
 
