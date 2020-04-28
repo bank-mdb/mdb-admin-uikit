@@ -40,6 +40,7 @@ export default {
           prepend: 'USD', //optional
           field: ['min', 'max'],
           placeholder: ['最小金额', '最大金额'], //optional，
+          value: ['222', 333],
         },
         {
           type: 'select',

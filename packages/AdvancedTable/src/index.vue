@@ -148,9 +148,6 @@ export default {
         } else if (item.type == 'cascader') {
           let tempFields = item.field //array
           item['value'] = tempFields.map((key) => this.queryParam[key])
-        } else if (item.type == 'range') {
-          let tempFields = item.field //array
-          item['value'] = tempFields.map((key) => this.queryParam[key])
         }
       })
     },

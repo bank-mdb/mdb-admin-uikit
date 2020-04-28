@@ -72,7 +72,9 @@
                 }}</template>
               </el-input>
             </el-col>
-            <el-col class="line" :span="1">-</el-col>
+            <el-col class="line" style="text-align: center;" :span="1"
+              >-</el-col
+            >
             <el-col :span="11">
               <el-input
                 v-model.trim="ruleForm[item.field[1]]"
@@ -108,9 +110,10 @@ export default {
       selectOptions: [],
     }
   },
-  created() {
+  mounted() {
+    const queryParam = this.$route.query
     this.rules.forEach((item) => {
-      let defaultValue = item['value'] || ''
+      let defaultValue = ''
       let field = item.field //Sting,Array,
       if (item.type === 'date') {
         if (typeof item.field === 'string') {
@@ -130,11 +133,18 @@ export default {
           defaultValue = [today, today]
         }
         Vue.set(this.ruleForm, field, defaultValue)
-      } else if (item.type === 'range' && Array.isArray(item.field)) {
-        let values = Array.isArray(item.value) ? item.value : ['', '']
-        Vue.set(this.ruleForm, item.field[0], values[0])
-        Vue.set(this.ruleForm, item.field[1], values[1])
+      } else if (
+        item.type === 'range' &&
+        Array.isArray(item.field) &&
+        item.field.length == 2
+      ) {
+        defaultValue = Array.isArray(item.value) ? item.value : ['', '']
+        let tempStartVal = queryParam[item.field[0]] || defaultValue[0]
+        let tempEndVal = queryParam[item.field[1]] || defaultValue[0]
+        Vue.set(this.ruleForm, item.field[0], tempStartVal)
+        Vue.set(this.ruleForm, item.field[1], tempEndVal)
       } else {
+        defaultValue = queryParam[item.field] || item['value'] || ''
         Vue.set(this.ruleForm, field, defaultValue)
       }
     })
