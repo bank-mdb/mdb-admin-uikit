@@ -1,6 +1,5 @@
 <template>
-  <div class="header-logo"
-    @click="toHome">
+  <div class="header-logo" @click="toHome">
     <svg-icon :icon-class="'ball'"></svg-icon>
     <div class="titleText">
       澳门发展银行<i class="iconfont mdb-dian1"></i>柜员平台
@@ -9,15 +8,13 @@
 </template>
 <script>
 export default {
-  name: "HeaderLogo",
-  inject: ["app"],
+  name: 'HeaderLogo',
   methods: {
     toHome() {
-      window.location.href =
-        window.location.origin + this.app.routePath.home.path;
-    }
-  }
-};
+      this.$emit('logoClick')
+    },
+  },
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .header-logo {

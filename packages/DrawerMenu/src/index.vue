@@ -26,13 +26,13 @@
       </span>
     </div>
     <!-- 菜单 -->
-    <PublicFunPanel class="mgr-20" style="padding-left:20px;" ref="Panel"></PublicFunPanel>
+    <PublicFunPanel class="mgr-20" style="padding-left:20px;" v-on="$listeners" ref="Panel"></PublicFunPanel>
   </Drawer>
 </template>
 
 <script>
-import Drawer from "../../Drawer/src/index.vue";
-import PublicFunPanel from "./components/PublicFunPanel";
+import Drawer from "../../Drawer/src/index";
+import PublicFunPanel from "../../PublicFunPanel/src/index";
 export default {
   components: {
     Drawer,
@@ -74,9 +74,6 @@ export default {
     }
   },
   computed: {
-    // isLogin() {
-    //   return this.$store.getters.isLogin;
-    // },
     isShow() {
       const onlyShowList = /\/list$/;
       return this.isLogin && onlyShowList.test(this.$route.path);
