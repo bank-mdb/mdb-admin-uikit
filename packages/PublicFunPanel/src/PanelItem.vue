@@ -4,6 +4,7 @@
       :title="title"
       :isSearch="isSearch"
       v-on="$listeners"
+      v-bind="$attrs"
       @handleShowMore="handleClose"
     ></PanelItemHeader>
     <el-collapse-transition>
@@ -57,7 +58,6 @@ export default {
 <style lang="scss" scoped>
 .panel-item {
   .body-wrapper {
-    padding-right: 8px;
     .empty {
       width: 100%;
       height: 40px;

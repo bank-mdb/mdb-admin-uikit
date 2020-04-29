@@ -6,13 +6,10 @@
  * @Description: file content
  -->
 <template>
-  <div
-    class="home-header"
-    :class="{ has_bread: !hideBread.includes($route.name) }"
-  >
+  <div class="home-header">
     <div class="header-main">
       <div class="header">
-        <mdb-header-logo></mdb-header-logo>
+        <mdb-header-logo v-on="$listeners"></mdb-header-logo>
         <mdb-header-user>
           <template v-slot:icon>
             <slot name="icon"></slot>
@@ -38,26 +35,18 @@ export default {
     userName: {
       type: String,
     },
+    logoLink: {
+      type: String,
+    },
   },
   provide() {
     return {
-      app: this,
+      userName: this.userName,
+      dropdownList: this.dropdownList,
     }
   },
   data() {
-    return {
-      hideUser: [
-        this.routePath.forgetPwd.name,
-        this.routePath.initPwd.name,
-        this.routePath.validatePhone.name,
-      ],
-      hideBread: [this.routePath.home.name],
-    }
-  },
-  computed: {
-    isShowUser() {
-      return !this.hideUser.includes(this.$route.name) && this.isLogin
-    },
+    return {}
   },
 }
 </script>
@@ -82,8 +71,5 @@ export default {
       border-top: 1px solid #dfe8ef;
     }
   }
-}
-.has_bread {
-  height: 125px;
 }
 </style>

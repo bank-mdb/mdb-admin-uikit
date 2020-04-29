@@ -2,12 +2,15 @@
   <div class="header-user">
     <slot name="icon"></slot>
     <el-dropdown @command="handleCommand">
-      <span class="el-dropdown-link">{{ app.userName }}<i class="el-icon-arrow-down el-icon--right"></i></span>
-      <el-dropdown-menu slot="dropdown"
-        class="home-header-dropdown">
-        <el-dropdown-item v-for="(item, index) in app.dropdownList"
+      <span class="el-dropdown-link"
+        >{{ userName }}<i class="el-icon-arrow-down el-icon--right"></i
+      ></span>
+      <el-dropdown-menu slot="dropdown" class="home-header-dropdown">
+        <el-dropdown-item
+          v-for="(item, index) in dropdownList"
           :key="index"
-          :command="item.action">{{ item.title }}
+          :command="item.action"
+          >{{ item.title }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -15,14 +18,14 @@
 </template>
 <script>
 export default {
-  name: "HomeHeaderUser",
-  inject: ["app"],
+  name: 'HomeHeaderUser',
+  inject: ['userName', 'dropdownList'],
   methods: {
     handleCommand(commandAction) {
-      commandAction();
-    }
-  }
-};
+      commandAction()
+    },
+  },
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .header-user {
