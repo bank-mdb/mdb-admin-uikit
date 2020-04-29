@@ -6,8 +6,10 @@
  * @Description: file content
  -->
 <template>
-  <div class="home-header"
-    :class="{ has_bread: !hideBread.includes($route.name) }">
+  <div
+    class="home-header"
+    :class="{ has_bread: !hideBread.includes($route.name) }"
+  >
     <div class="header-main">
       <div class="header">
         <mdb-header-logo></mdb-header-logo>
@@ -21,43 +23,43 @@
   </div>
 </template>
 <script>
-import MdbHeaderLogo from "./MdbHeaderLogo.vue";
-import MdbHeaderUser from "./MdbHeaderUser.vue";
+import MdbHeaderLogo from './MdbHeaderLogo.vue'
+import MdbHeaderUser from './MdbHeaderUser.vue'
 export default {
-  name: "HomeHeader",
+  name: 'HomeHeader',
   components: { MdbHeaderLogo, MdbHeaderUser },
   props: {
     routePath: {
-      type: Object
+      type: Object,
     },
     dropdownList: {
-      type: Array
+      type: Array,
     },
     userName: {
-      type: String
-    }
+      type: String,
+    },
   },
   provide() {
     return {
-      app: this
-    };
+      app: this,
+    }
   },
   data() {
     return {
       hideUser: [
         this.routePath.forgetPwd.name,
         this.routePath.initPwd.name,
-        this.routePath.validatePhone.name
+        this.routePath.validatePhone.name,
       ],
-      hideBread: [this.routePath.home.name]
-    };
+      hideBread: [this.routePath.home.name],
+    }
   },
   computed: {
     isShowUser() {
-      return !this.hideUser.includes(this.$route.name) && this.isLogin;
-    }
-  }
-};
+      return !this.hideUser.includes(this.$route.name) && this.isLogin
+    },
+  },
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .home-header {

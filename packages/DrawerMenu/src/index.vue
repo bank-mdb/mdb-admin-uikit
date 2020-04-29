@@ -10,7 +10,11 @@
   >
     <!-- float-button -->
     <template v-slot:control="{ drawer }">
-      <div v-if="drawer.control.key === 'look'" v-show="drawer.show === false" class="float-button">
+      <div
+        v-if="drawer.control.key === 'look'"
+        v-show="drawer.show === false"
+        class="float-button"
+      >
         <i class="iconfont mdb-caidandaohang"></i>功能导航
       </div>
     </template>
@@ -26,63 +30,67 @@
       </span>
     </div>
     <!-- 菜单 -->
-    <PublicFunPanel class="mgr-20" style="padding-left:20px;" ref="Panel"></PublicFunPanel>
+    <PublicFunPanel
+      class="mgr-20"
+      style="padding-left:20px;"
+      ref="Panel"
+    ></PublicFunPanel>
   </Drawer>
 </template>
 
 <script>
-import Drawer from "../../Drawer/src/index.vue";
-import PublicFunPanel from "./components/PublicFunPanel";
+import Drawer from '../../Drawer/src/index.vue'
+import PublicFunPanel from './components/PublicFunPanel'
 export default {
   components: {
     Drawer,
-    PublicFunPanel
+    PublicFunPanel,
   },
   props: {
     isLogin: {
-      type: String
+      type: String,
     },
     authMenuList: {
-      type: Array
+      type: Array,
     },
     productPrefixFile: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   provide() {
     return {
-      drawerProps: this
-    };
+      drawerProps: this,
+    }
   },
   data() {
     return {
       controls: [
         {
-          key: "look",
-          show: "功能导航",
-          hidden: ""
-        }
-      ]
-    };
+          key: 'look',
+          show: '功能导航',
+          hidden: '',
+        },
+      ],
+    }
   },
   methods: {
     openDrawer() {
-      return true;
+      return true
     },
     hideDrawer() {
-      this.$refs.drawer.closeDrawerByControl();
-    }
+      this.$refs.drawer.closeDrawerByControl()
+    },
   },
   computed: {
     // isLogin() {
     //   return this.$store.getters.isLogin;
     // },
     isShow() {
-      const onlyShowList = /\/list$/;
-      return this.isLogin && onlyShowList.test(this.$route.path);
-    }
-  }
-};
+      const onlyShowList = /\/list$/
+      return this.isLogin && onlyShowList.test(this.$route.path)
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
