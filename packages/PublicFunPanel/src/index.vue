@@ -29,7 +29,7 @@ import PanelSearch from './PanelSearch.vue'
 // import { mapState } from "vuex";
 // import routePath from '@/router/routePath'
 export default {
-  name: 'Panel',
+  name: 'PublicFunPanel',
   components: {
     PanelItem,
     PanelSearch,

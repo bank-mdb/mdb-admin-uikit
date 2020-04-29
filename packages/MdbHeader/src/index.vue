@@ -20,35 +20,35 @@
   </div>
 </template>
 <script>
-import MdbHeaderLogo from './MdbHeaderLogo.vue'
-import MdbHeaderUser from './MdbHeaderUser.vue'
+import MdbHeaderLogo from "./MdbHeaderLogo.vue";
+import MdbHeaderUser from "./MdbHeaderUser.vue";
 export default {
-  name: 'HomeHeader',
+  name: "MdbHeader",
   components: { MdbHeaderLogo, MdbHeaderUser },
   props: {
     routePath: {
-      type: Object,
+      type: Object
     },
     dropdownList: {
-      type: Array,
+      type: Array
     },
     userName: {
-      type: String,
+      type: String
     },
     logoLink: {
-      type: String,
-    },
+      type: String
+    }
   },
   provide() {
     return {
       userName: this.userName,
-      dropdownList: this.dropdownList,
-    }
+      dropdownList: this.dropdownList
+    };
   },
   data() {
-    return {}
-  },
-}
+    return {};
+  }
+};
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 .home-header {
