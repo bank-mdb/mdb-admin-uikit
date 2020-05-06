@@ -15,6 +15,11 @@
 <script>
 export default {
   name: "Breadcrumb",
+  props: {
+    appBreadList: {
+      type: Array
+    }
+  },
   data() {
     return {
       breadList: []
@@ -37,7 +42,7 @@ export default {
       };
       const isFirstLevelRouter = /\/list$/.test(curRouter.path);
       let breadList = window.localStorage.getItem("breadList") || "";
-      let matched = breadList && JSON.parse(breadList);
+      let matched = (breadList && JSON.parse(breadList)) || [];
       if (isFirstLevelRouter) {
         matched = [curRouter];
       } else {

@@ -24,83 +24,83 @@
   </div>
 </template>
 <script>
-import PanelItem from './PanelItem.vue'
-import PanelSearch from './PanelSearch.vue'
+import PanelItem from "./PanelItem.vue";
+import PanelSearch from "./PanelSearch.vue";
 // import { mapState } from "vuex";
 // import routePath from '@/router/routePath'
 export default {
-  name: 'PublicFunPanel',
+  name: "PublicFunPanel",
   components: {
     PanelItem,
-    PanelSearch,
+    PanelSearch
   },
   props: {
     isPublicHomePage: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  inject: ['drawerProps'],
+  inject: ["drawerProps"],
   data() {
     return {
-      panelHeight: 0,
-    }
+      panelHeight: 0
+    };
   },
   computed: {
     features() {
       let CollectedFeatures = this.drawerProps.authMenuList.filter(
-        (item) => item.icon === 'true'
-      )
+        item => item.icon === "true"
+      );
       const otherFeatures = this.drawerProps.productPrefixFile.map(
-        (prefixItem) => {
-          let filterFeatures = this.drawerProps.authMenuList.filter((item) =>
+        prefixItem => {
+          let filterFeatures = this.drawerProps.authMenuList.filter(item =>
             item.id.includes(prefixItem.prefix)
-          )
+          );
           return {
             title: prefixItem.title,
-            content: filterFeatures,
-          }
+            content: filterFeatures
+          };
         }
-      )
+      );
       return [
         {
-          title: '我的收藏',
+          title: "我的收藏",
           content: CollectedFeatures,
-          hideEmptyItem: false,
+          hideEmptyItem: false
         },
-        ...otherFeatures,
-      ]
-    },
+        ...otherFeatures
+      ];
+    }
   },
   methods: {
     handleResize() {
-      const windowHeight = window.innerHeight
-      const headerHeight = 70
-      const footerHeight = 90
-      const marginValue = 15
-      const publicFunPanelSearchHeight = 90
+      const windowHeight = window.innerHeight;
+      const headerHeight = 70;
+      const footerHeight = 90;
+      const marginValue = 15;
+      const publicFunPanelSearchHeight = 90;
       let panelHeight =
         windowHeight -
         headerHeight -
         footerHeight -
         publicFunPanelSearchHeight -
-        marginValue
+        marginValue;
       //TODO:TEST
-      this.panelHeight = panelHeight
+      this.panelHeight = panelHeight;
       // this.panelHeight =
       //   this.$route.path === routePath.home.path
       //     ? panelHeight
       //     : panelHeight + 120
-    },
+    }
   },
   mounted() {
-    this.handleResize()
-    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
-  },
-}
+    window.removeEventListener("resize", this.handleResize);
+  }
+};
 </script>
 <style lang="scss" scoped>
 .panel {
