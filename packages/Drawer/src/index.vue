@@ -4,7 +4,10 @@
  * @Description: 抽屉组件
  -->
 <template>
-  <div class="drawer__container" :class="[positionClass, { 'drawer__container--show': show }]">
+  <div
+    class="drawer__container"
+    :class="[positionClass, { 'drawer__container--show': show }]"
+  >
     <div class="drawer__container-bg" />
     <div ref="drawer" class="drawer">
       <div class="controls__container" ref="controls__container">
@@ -21,16 +24,12 @@
           >
             <template v-if="show">
               <slot name="control" v-bind:drawer="{ show, control }">
-                {{
-                control.hidden
-                }}
+                {{ control.hidden }}
               </slot>
             </template>
             <template v-else>
               <slot name="control" v-bind:drawer="{ show, control }">
-                {{
-                control.show
-                }}
+                {{ control.show }}
               </slot>
             </template>
           </li>
@@ -44,184 +43,184 @@
 </template>
 
 <script>
-import { setTimeout } from "timers";
+import { setTimeout } from 'timers'
 export default {
-  name: "Drawer",
+  name: 'Drawer',
   props: {
     triggerEvent: {
       type: String,
-      default: "click"
+      default: 'click',
     },
     controls: {
       type: [Object, Array],
       default: () => {
         return {
-          show: "显示",
-          hidden: "隐藏"
-        };
-      }
+          show: '显示',
+          hidden: '隐藏',
+        }
+      },
     },
     position: {
       type: String,
-      default: "right",
+      default: 'right',
       validator: function(value) {
-        return ["top", "right", "bottom", "left"].indexOf(value) !== -1;
-      }
+        return ['top', 'right', 'bottom', 'left'].indexOf(value) !== -1
+      },
     },
     controlOffset: {
       type: [String, Number],
-      default: 400
+      default: 400,
     },
     contentSize: {
       type: [String, Number],
-      default: 300
+      default: 300,
     },
     openDrawer: {
-      type: Function
-    }
+      type: Function,
+    },
   },
   data() {
     return {
       show: false,
       lock: undefined,
-      positionClass: this.position
-    };
+      positionClass: this.position,
+    }
   },
   watch: {
     show(value) {
       if (value && !this.clickNotClose) {
-        this.addCloseSidebarListener();
+        this.addCloseSidebarListener()
       }
       if (value) {
-        document.body.classList.add("hidden_scoll_bar");
+        document.body.classList.add('hidden_scoll_bar')
       } else {
-        document.body.classList.remove("hidden_scoll_bar");
+        document.body.classList.remove('hidden_scoll_bar')
       }
 
       this.$nextTick(() => {
-        this.updateControlLayout();
-      });
-    }
+        this.updateControlLayout()
+      })
+    },
   },
   computed: {
     controlItems() {
       if (Array.isArray(this.controls)) {
-        return this.controls;
+        return this.controls
       } else {
-        return [this.controls];
+        return [this.controls]
       }
     },
     lockedShow: {
       get() {
-        return this.show;
+        return this.show
       },
       set(val) {
         if (this.lock) {
-          return;
+          return
         } else {
           this.lock = setTimeout(() => {
-            this.lock = undefined;
-          }, 200);
-          this.show = val;
+            this.lock = undefined
+          }, 200)
+          this.show = val
         }
-      }
+      },
     },
     isHorizontal() {
-      return ["left", "right"].includes(this.position);
+      return ['left', 'right'].includes(this.position)
     },
     isVertical() {
-      return ["bottom", "top"].includes(this.position);
-    }
+      return ['bottom', 'top'].includes(this.position)
+    },
   },
   mounted() {
-    let controlOffset = this.controlOffset;
-    let contentSize = this.contentSize;
-    if (typeof controlOffset === "number") {
-      controlOffset = `${controlOffset}px`;
+    let controlOffset = this.controlOffset
+    let contentSize = this.contentSize
+    if (typeof controlOffset === 'number') {
+      controlOffset = `${controlOffset}px`
     }
-    if (typeof contentSize === "number") {
-      contentSize = `${contentSize}px`;
+    if (typeof contentSize === 'number') {
+      contentSize = `${contentSize}px`
     }
     if (this.isVertical) {
-      this.$refs["controls__container"].style["left"] = controlOffset;
-      this.$refs["drawer"].style.maxHeight = contentSize;
+      this.$refs['controls__container'].style['left'] = controlOffset
+      this.$refs['drawer'].style.maxHeight = contentSize
     }
     if (this.isHorizontal) {
-      this.$refs["controls__container"].style["top"] = controlOffset;
-      this.$refs["drawer"].style.maxWidth = contentSize;
+      this.$refs['controls__container'].style['top'] = controlOffset
+      this.$refs['drawer'].style.maxWidth = contentSize
     }
-    this.updateControlLayout();
+    this.updateControlLayout()
   },
   destroyed() {
-    this.removeCloseSidebarListener();
+    this.removeCloseSidebarListener()
   },
   methods: {
     toggleDrawerShowByClick(evt) {
-      if (this.triggerEvent !== "click") {
-        return;
+      if (this.triggerEvent !== 'click') {
+        return
       }
-      this.show ? this.closeDrawerByControl() : this.openDrawerByControl(evt);
+      this.show ? this.closeDrawerByControl() : this.openDrawerByControl(evt)
     },
     toggleDrawerShowByMouseover(evt) {
-      if (this.triggerEvent !== "mouseover") {
-        return;
+      if (this.triggerEvent !== 'mouseover') {
+        return
       }
-      this.show ? this.closeDrawerByControl() : this.openDrawerByControl(evt);
+      this.show ? this.closeDrawerByControl() : this.openDrawerByControl(evt)
     },
     openDrawerByControl(evt) {
-      const onOpenDraw = this.openDrawer;
+      const onOpenDraw = this.openDrawer
       if (!onOpenDraw) {
-        this.lockedShow = true;
-        return;
+        this.lockedShow = true
+        return
       }
-      const target = evt.target;
-      const currentTarget = evt.currentTarget;
-      this.lockedShow = onOpenDraw(target, currentTarget);
+      const target = evt.target
+      const currentTarget = evt.currentTarget
+      this.lockedShow = onOpenDraw(target, currentTarget)
     },
     closeDrawerByControl() {
-      this.lockedShow = false;
+      this.lockedShow = false
     },
     closeSidebar(evt) {
-      const parent = evt.target.closest(".drawer");
+      const parent = evt.target.closest('.drawer')
       if (!parent) {
-        this.show = false;
-        this.removeCloseSidebarListener();
+        this.show = false
+        this.removeCloseSidebarListener()
       }
     },
     addCloseSidebarListener() {
-      if (this.triggerEvent === "click") {
-        window.addEventListener("click", this.closeSidebar);
+      if (this.triggerEvent === 'click') {
+        window.addEventListener('click', this.closeSidebar)
       }
-      if (this.triggerEvent === "mouseover") {
-        window.addEventListener("mouseover", this.closeSidebar);
+      if (this.triggerEvent === 'mouseover') {
+        window.addEventListener('mouseover', this.closeSidebar)
       }
     },
     removeCloseSidebarListener() {
-      if (this.triggerEvent === "click") {
-        window.removeEventListener("click", this.closeSidebar);
+      if (this.triggerEvent === 'click') {
+        window.removeEventListener('click', this.closeSidebar)
       }
-      if (this.triggerEvent === "mouseover") {
-        window.removeEventListener("mouseover", this.closeSidebar);
+      if (this.triggerEvent === 'mouseover') {
+        window.removeEventListener('mouseover', this.closeSidebar)
       }
     },
     updateControlLayout() {
-      const controlsContainerEl = this.$refs["controls__container"];
-      const rect = controlsContainerEl.getBoundingClientRect();
-      if (this.position === "top") {
-        controlsContainerEl.style["bottom"] = `-${rect.height}px`;
+      const controlsContainerEl = this.$refs['controls__container']
+      const rect = controlsContainerEl.getBoundingClientRect()
+      if (this.position === 'top') {
+        controlsContainerEl.style['bottom'] = `-${rect.height}px`
       }
-      if (this.position === "bottom") {
-        controlsContainerEl.style["top"] = `-${rect.height}px`;
+      if (this.position === 'bottom') {
+        controlsContainerEl.style['top'] = `-${rect.height}px`
       }
-      if (this.position === "right") {
-        controlsContainerEl.style["left"] = `-${rect.width}px`;
+      if (this.position === 'right') {
+        controlsContainerEl.style['left'] = `-${rect.width}px`
       }
-      if (this.position === "left") {
-        controlsContainerEl.style["right"] = `-${rect.width}px`;
+      if (this.position === 'left') {
+        controlsContainerEl.style['right'] = `-${rect.width}px`
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style>
@@ -346,5 +345,6 @@ export default {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-right: 30px;
 }
 </style>

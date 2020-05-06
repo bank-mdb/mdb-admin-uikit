@@ -1,14 +1,8 @@
 <template>
-  <div class="panel">
-    <PanelSearch></PanelSearch>
+  <div class="public-fun-panel">
+    <PanelSearch v-on="$listeners"></PanelSearch>
     <div :style="{ height: `${panelHeight}px` }">
-      <el-scrollbar
-        wrapStyle="color:'#dde2e8'"
-        viewStyle="color:'#dde2e8'"
-        :native="false"
-        :noresize="false"
-        tag="div"
-      >
+      <el-scrollbar :native="false" :noresize="false" tag="div">
         <div :style="{ maxHeight: `${panelHeight}px` }">
           <PanelItem
             v-for="(item, index) in features"
@@ -24,94 +18,110 @@
   </div>
 </template>
 <script>
-import PanelItem from './PanelItem.vue'
-import PanelSearch from './PanelSearch.vue'
-// import { mapState } from "vuex";
-// import routePath from '@/router/routePath'
+import PanelItem from "./PanelItem.vue";
+import PanelSearch from "./PanelSearch.vue";
 export default {
-  name: 'PublicFunPanel',
+  name: "PublicFunPanel",
   components: {
     PanelItem,
-    PanelSearch,
+    PanelSearch
+  },
+  provide() {
+    return {
+      publicFunPanel: this
+    };
   },
   props: {
-    isPublicHomePage: {
-      type: Boolean,
-      default: false,
+    functions: {
+      type: Array,
+      default: () => []
     },
-  },
-  inject: ['drawerProps'],
-  data() {
-    return {
-      panelHeight: 0,
+    productPrefixFile: {
+      type: Array,
+      default: () => []
+    },
+    // vue.config文件里面配置的publicPath
+    publicPath: {
+      type: String,
+      required: true,
+      default: "/"
+    },
+    // 用于调整高度
+    adjustHeight: {
+      type: Number,
+      default: 140
     }
   },
+  data() {
+    return {
+      panelHeight: 0
+    };
+  },
   computed: {
-    features() {
-      let CollectedFeatures = this.drawerProps.authMenuList.filter(
-        (item) => item.icon === 'true'
-      )
-      const otherFeatures = this.drawerProps.productPrefixFile.map(
-        (prefixItem) => {
-          let filterFeatures = this.drawerProps.authMenuList.filter((item) =>
-            item.id.includes(prefixItem.prefix)
-          )
-          return {
-            title: prefixItem.title,
-            content: filterFeatures,
-          }
+    authMenuList(){
+      return this.functions.map(item=>{
+        return {
+          ...item,
+          path: `/${item.url.replace(/_+/g, "-")}`,
         }
-      )
+      });
+    },
+    features() {
+      let CollectedFeatures = this.authMenuList.filter(
+        item => item.icon === "true"
+      );
+      const otherFeatures = this.productPrefixFile.map(prefixItem => {
+        let filterFeatures = this.authMenuList.filter(item =>
+          item.id.includes(prefixItem.prefix)
+        );
+        return {
+          title: prefixItem.title,
+          content: filterFeatures
+        };
+      });
       return [
         {
-          title: '我的收藏',
+          title: "我的收藏",
           content: CollectedFeatures,
-          hideEmptyItem: false,
+          hideEmptyItem: false
         },
-        ...otherFeatures,
-      ]
-    },
+        ...otherFeatures
+      ];
+    }
   },
   methods: {
     handleResize() {
-      const windowHeight = window.innerHeight
-      const headerHeight = 70
-      const footerHeight = 90
-      const marginValue = 15
-      const publicFunPanelSearchHeight = 90
-      let panelHeight =
+      const windowHeight = window.innerHeight;
+      const headerHeight = 70;
+      const footerHeight = 90;
+      const marginValue = 15;
+      const publicFunPanelSearchHeight = 90;
+      this.panelHeight =
         windowHeight -
         headerHeight -
         footerHeight -
         publicFunPanelSearchHeight -
-        marginValue
-      //TODO:TEST
-      this.panelHeight = panelHeight
-      // this.panelHeight =
-      //   this.$route.path === routePath.home.path
-      //     ? panelHeight
-      //     : panelHeight + 120
-    },
+        marginValue +
+        this.adjustHeight;
+    }
   },
   mounted() {
-    this.handleResize()
-    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
-  },
-}
+    window.removeEventListener("resize", this.handleResize);
+  }
+};
 </script>
-<style lang="scss" scoped>
-.panel {
-  width: 100%;
-}
-</style>
-
 <style lang="scss">
-.panel {
+.public-fun-panel {
+  width: 100%;
   .el-scrollbar__wrap {
     overflow-x: hidden;
+  }
+  .is-horizontal {
+    display: none;
   }
 }
 </style>

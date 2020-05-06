@@ -8,8 +8,6 @@ import { validateForms } from './DyForm/src/utils/index.js'
 import PublicFunPanel from './PublicFunPanel/index.js'
 import Drawer from './Drawer/index.js'
 import DetailList from './DetailList/index.js'
-import TheFooter from './TheFooter/index.js'
-import MdbHeader from './MdbHeader/index.js'
 import Breadcrumb from './Breadcrumb/index.js'
 import DrawerMenu from './DrawerMenu/index.js'
 const components = [
@@ -21,8 +19,6 @@ const components = [
   PublicFunPanel,
   Drawer,
   DetailList,
-  TheFooter,
-  MdbHeader,
   Breadcrumb,
   DrawerMenu,
 ]

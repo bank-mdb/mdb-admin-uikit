@@ -38,12 +38,13 @@ export default {
   methods: {
     getBreadcrumb() {
       const curRouter = {
-        path: this.$route.path,
-        fullPath: this.$route.fullPath,
-        meta: this.$route.meta,
+        path: this.$route.path || '',
+        fullPath: this.$route.fullPath || '',
+        meta: this.$route.meta || '',
       }
       const isFirstLevelRouter = /\/list$/.test(curRouter.path)
-      let matched = JSON.parse(window.localStorage.getItem('breadList'))
+      let matched = window.localStorage.getItem('breadList') || []
+      matched = JSON.parse(matched)
       if (isFirstLevelRouter) {
         matched = [curRouter]
       } else {
