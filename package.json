@@ -1,11 +1,7 @@
 {
   "name": "mdb-admin-uikit",
   "description": "后台ui库",
-<<<<<<< HEAD
-  "version": "1.0.54",
-=======
   "version": "1.0.57",
->>>>>>> master-test
   "private": false,
   "author": "deng.wulin@mdb-fintech.com",
   "license": "ISC",
