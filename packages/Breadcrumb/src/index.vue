@@ -43,8 +43,12 @@ export default {
         meta: this.$route.meta || '',
       }
       const isFirstLevelRouter = /\/list$/.test(curRouter.path)
-      let matched = window.localStorage.getItem('breadList') || []
-      matched = JSON.parse(matched)
+      let matched
+      if (window.localStorage.getItem('breadList')) {
+        matched = JSON.parse(matched)
+      } else {
+        matched = []
+      }
       if (isFirstLevelRouter) {
         matched = [curRouter]
       } else {
