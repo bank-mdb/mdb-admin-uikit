@@ -42,12 +42,14 @@ export default {
   line-height: 60px;
   .text {
     flex: 1;
+    text-align: left;
     font-family: PingFang SC;
     font-size: 16px;
     font-weight: bolder;
     color: #272727;
   }
   .icon {
+    margin-right: 10px;
     font-family: PingFang SC;
     font-size: 12px;
     color: #8492a6;

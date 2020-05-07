@@ -12,24 +12,21 @@
     <PublicFunPanelDemo></PublicFunPanelDemo>
     <h2>DetailList demo</h2>
     <DetailListDemo></DetailListDemo>
-    <h2>TheFooter demo</h2>
-    <TheFooterDemo></TheFooterDemo>
-    <h2>MdbHeaderDemo demo</h2>
-    <MdbHeaderDemo></MdbHeaderDemo>
+    <h2>DrawerMenuDemo demo(right sidebar)</h2>
+    <DrawerMenuDemo></DrawerMenuDemo>
   </div>
 </template>
 
 <script>
-import TreeSelectDemo from "./components/TreeSelectDemo";
-import VTableDemo from "./components/VTableDemo";
-import SearchFormDemo from "./components/SearchFormDemo";
-import DyFormDemo from "./components/DyFormDemo";
-import PublicFunPanelDemo from "./components/PublicFunPanelDemo";
-import DetailListDemo from "./components/DetailListDemo";
-import TheFooterDemo from "./components/TheFooterDemo";
-import MdbHeaderDemo from "./components/MdbHeaderDemo";
+import TreeSelectDemo from './components/TreeSelectDemo'
+import VTableDemo from './components/VTableDemo'
+import SearchFormDemo from './components/SearchFormDemo'
+import DyFormDemo from './components/DyFormDemo'
+import PublicFunPanelDemo from './components/PublicFunPanelDemo'
+import DetailListDemo from './components/DetailListDemo'
+import DrawerMenuDemo from './components/DrawerMenuDemo'
 export default {
-  name: "App",
+  name: 'App',
   components: {
     TreeSelectDemo,
     VTableDemo,
@@ -37,10 +34,9 @@ export default {
     DyFormDemo,
     PublicFunPanelDemo,
     DetailListDemo,
-    TheFooterDemo,
-    MdbHeaderDemo
-  }
-};
+    DrawerMenuDemo,
+  },
+}
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 <template>
   <div class="panel-item-body">
-    <div class="text" @click="handleGoToPage(content)">
+    <div class="text" @click="handleGoToPage">
       {{ content.id }} {{ content.title }}
     </div>
     <div class="icon" @click="handleCollected">
@@ -12,44 +12,45 @@
 </template>
 <script>
 export default {
-  name: 'PanelItemBody',
+  name: "PanelItemBody",
+  inject: ["publicFunPanel"],
   props: {
-    content: Object,
+    content: Object
   },
-  inject: ['drawerProps'],
   methods: {
-    handleCollected() {
-      this.$emit('handleCollected', this.content.id, this.content.icon)
+    async handleCollected() {
+      this.$emit(
+        "collectionChange",
+        this.content.id,
+        this.content.icon === "true"
+      );
     },
-
-    handleGoToPage(content) {
-      let [prefixFile = {}] = this.drawerProps.productPrefixFile.filter(
-        (item) => content.id.includes(item.prefix)
-      )
-      let base = this.$router.options.base
-      base = base === '/' ? base : base.substr(0, base.length - 1)
-      if (prefixFile.publicPath === base) {
-        this.$router.push({ path: content.path })
+    handleGoToPage() {
+      let [prefixFile = {}] = this.publicFunPanel.productPrefixFile.filter(
+        item => this.content.id.includes(item.prefix)
+      );
+      if (prefixFile.publicPath === this.publicFunPanel.publicPath) {
+        this.$router.push({ path: this.content.path });
       } else {
         let publicPath =
-          prefixFile.publicPath === '/' ? '' : prefixFile.publicPath
+          prefixFile.publicPath === "/" ? "" : prefixFile.publicPath;
         window.location.href =
-          window.location.origin + publicPath + content.path
+          window.location.origin + publicPath + this.content.path;
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .panel-item-body {
   display: flex;
   width: 100%;
   height: 40px;
-  padding-right: 22px;
   line-height: 38px;
   border-bottom: 1px solid #efeeee;
   .text {
     flex: 1;
+    text-align: left;
     margin-right: 10px;
     font-family: PingFang SC;
     font-size: 14px;
