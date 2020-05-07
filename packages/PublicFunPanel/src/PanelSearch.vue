@@ -1,6 +1,7 @@
 <template>
   <div class="panel-search" v-outside="handleClose">
     <el-input
+      ref="input"
       v-model="keyword"
       autocomplete="off"
       placeholder="请输入编号或名字查询......"
@@ -9,15 +10,13 @@
       @input="handleSearchChange"
     ></el-input>
     <el-collapse-transition>
-      <div class="result" v-if="showResult">
-        <el-scrollbar
-          wrapStyle="color:'#dde2e8'"
-          viewStyle="color:'#dde2e8'"
-          :native="false"
-          :noresize="false"
-          tag="div"
-        >
-          <div style="max-height:500px;">
+      <div
+        class="result"
+        v-if="showResult"
+        :style="{ width: `${inputWidth}px` }"
+      >
+        <el-scrollbar :native="false" :noresize="false" tag="div">
+          <div class="panel-wrapper">
             <PanelItem
               title="为您找到相关结果："
               :isSearch="true"
@@ -37,23 +36,25 @@
   </div>
 </template>
 <script>
-// import { mapState } from "vuex";
 import PanelItem from './PanelItem.vue'
+import outside from '../directives/outside.js'
 export default {
   name: 'PanelSearch',
   components: { PanelItem },
+  inject: ['publicFunPanel'],
+  directives: { outside },
   data() {
     return {
       keyword: '',
       showResult: false,
       result: [],
+      inputWidth: 0,
     }
   },
-  inject: ['drawerProps'],
   computed: {
-    // ...mapState({
-    //   authMenuList: state => state.app.authMenuList
-    // })
+    authMenuList() {
+      return this.publicFunPanel.authMenuList
+    },
   },
   methods: {
     handleClose() {
@@ -63,7 +64,7 @@ export default {
       this.showResult = true
     },
     handleSearchChange() {
-      const result = this.drawerProps.authMenuList.filter(
+      const result = this.authMenuList.filter(
         (item) =>
           this.keyword &&
           (item.title.includes(this.keyword) ||
@@ -72,8 +73,11 @@ export default {
       this.result = result
     },
   },
+  mounted() {
+    this.inputWidth = this.$refs.input.$el.clientWidth
+  },
   watch: {
-    'drawerProp.authMenuList': {
+    authMenuList: {
       handler() {
         this.handleSearchChange()
       },
@@ -90,9 +94,8 @@ export default {
   .result {
     position: absolute;
     z-index: 2;
-    top: 36px;
+    top: 40px;
     width: 100%;
-    padding: 0px 0px 15px 28px;
     background: #fff;
     box-shadow: 0px 3px 13px 0px rgba(40, 72, 100, 0.22);
     border-radius: 5px;
@@ -105,14 +108,16 @@ export default {
         font-size: 80px;
       }
     }
+    .panel-wrapper {
+      max-height: 500px;
+      padding: 0 10px;
+    }
   }
 }
 </style>
 
 <style lang="scss">
-.panel-search {
-  .el-scrollbar__wrap {
-    overflow-x: hidden;
-  }
+.public-fun-panel .el-scrollbar__wrap {
+  overflow-x: hidden !important;
 }
 </style>

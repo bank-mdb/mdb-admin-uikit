@@ -1,12 +1,15 @@
 /** 面包屑导航*/
 <template>
-  <div class="breadcrumb-con" v-if="isShowBreadcrumb">
+  <div
+    class="breadcrumb-con"
+    v-if="isShowBreadcrumb"
+  >
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <template v-for="(item, index) in breadList">
         <el-breadcrumb-item
+          :key="index"
           :to="item.fullPath"
           v-if="item.meta.title"
-          :key="index"
         >{{ item.meta.title }}</el-breadcrumb-item>
       </template>
     </el-breadcrumb>
@@ -20,53 +23,57 @@ export default {
       type: Array
     }
   },
-  data() {
+  data () {
     return {
       breadList: []
-    };
-  },
-  computed: {
-    isShowBreadcrumb() {
-      return this.breadList && this.breadList.length > 0;
     }
   },
-  mounted() {
-    this.getBreadcrumb();
+  computed: {
+    isShowBreadcrumb () {
+      return this.breadList && this.breadList.length > 0
+    }
+  },
+  mounted () {
+    this.getBreadcrumb()
   },
   methods: {
-    getBreadcrumb() {
+    getBreadcrumb () {
       const curRouter = {
-        path: this.$route.path,
-        fullPath: this.$route.fullPath,
-        meta: this.$route.meta
-      };
-      const isFirstLevelRouter = /\/list$/.test(curRouter.path);
-      let breadList = window.localStorage.getItem("breadList") || "";
-      let matched = (breadList && JSON.parse(breadList)) || [];
+        path: this.$route.path || '',
+        fullPath: this.$route.fullPath || '',
+        meta: this.$route.meta || '',
+      }
+      const isFirstLevelRouter = /\/list$/.test(curRouter.path)
+      let matched
+      if (window.localStorage.getItem('breadList')) {
+        matched = JSON.parse(matched)
+      } else {
+        matched = []
+      }
       if (isFirstLevelRouter) {
-        matched = [curRouter];
+        matched = [curRouter]
       } else {
         const indexOfRouter = matched.findIndex(
           item => item.path === curRouter.path
-        );
+        )
         if (indexOfRouter !== -1) {
-          matched = matched.splice(0, indexOfRouter);
+          matched = matched.splice(0, indexOfRouter)
         }
         if (curRouter.meta.title) {
-          matched.push(curRouter);
+          matched.push(curRouter)
         }
       }
-      const isPublicPath = /^\/public-fun/.test(curRouter.path);
+      const isPublicPath = /^\/public-fun/.test(curRouter.path)
       if (isPublicPath) {
-        matched = [];
+        matched = []
       }
-      window.localStorage.setItem("breadList", JSON.stringify(matched));
-      this.breadList = matched;
+      window.localStorage.setItem("breadList", JSON.stringify(matched))
+      this.breadList = matched
     }
   },
   watch: {
-    $route() {
-      this.getBreadcrumb();
+    $route () {
+      this.getBreadcrumb()
     }
   }
 };

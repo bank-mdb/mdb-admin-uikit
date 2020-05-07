@@ -1,6 +1,5 @@
 <template>
   <Drawer
-    v-if="isShow"
     class="drawer-menu-container"
     ref="drawer"
     :openDrawer="openDrawer"
@@ -20,21 +19,24 @@
     </template>
     <!-- content -->
     <div class="mg-20">
-      <span class="text-title">
-        <i class="iconfont mdb-caidandaohang" style="color:#3685f1"></i>
-        功能导航
-      </span>
-      <span class="text-gray-fun float-right" @click="hideDrawer">
-        收起
-        <i class="el-icon-arrow-right"></i>
-      </span>
+      <span class="text-title"
+        ><i class="iconfont mdb-caidandaohang" style="color:#3685f1"></i>
+        功能导航</span
+      >
+      <span class="text-gray-fun float-right" @click="hideDrawer"
+        >收起 <i class="el-icon-arrow-right"></i
+      ></span>
     </div>
     <!-- 菜单 -->
     <PublicFunPanel
       class="mgr-20"
       style="padding-left:20px;"
-      v-on="$listeners"
       ref="Panel"
+      :functions="functions"
+      :productPrefixFile="productPrefixFile"
+      publicPath="/"
+      :adjustHeight="adjustHeight"
+      @collectionChange="collectionChange"
     ></PublicFunPanel>
   </Drawer>
 </template>
@@ -52,17 +54,25 @@ export default {
     isLogin: {
       type: String,
     },
-    authMenuList: {
+    functions: {
       type: Array,
+      default: () => [],
     },
     productPrefixFile: {
       type: Array,
+      default: () => [],
     },
-  },
-  provide() {
-    return {
-      drawerProps: this,
-    }
+    // vue.config文件里面配置的publicPath
+    publicPath: {
+      type: String,
+      required: true,
+      default: '/',
+    },
+    // 用于调整高度
+    adjustHeight: {
+      type: Number,
+      default: 140,
+    },
   },
   data() {
     return {
@@ -82,11 +92,8 @@ export default {
     hideDrawer() {
       this.$refs.drawer.closeDrawerByControl()
     },
-  },
-  computed: {
-    isShow() {
-      const onlyShowList = /\/list$/
-      return this.isLogin && onlyShowList.test(this.$route.path)
+    collectionChange(id, icon) {
+      this.$emit('collectionChange', id, icon)
     },
   },
 }
@@ -118,7 +125,7 @@ export default {
     margin: 15px 20px;
   }
   .float-button {
-    width: 36px;
+    // width: 36px;
     height: 150px;
     writing-mode: vertical-rl;
     padding: 12px 12px;
