@@ -18,11 +18,6 @@
 <script>
 export default {
   name: "Breadcrumb",
-  props: {
-    appBreadList: {
-      type: Array
-    }
-  },
   data () {
     return {
       breadList: []
@@ -39,14 +34,15 @@ export default {
   methods: {
     getBreadcrumb () {
       const curRouter = {
-        path: this.$route.path || '',
-        fullPath: this.$route.fullPath || '',
-        meta: this.$route.meta || '',
+        path: this.$route.path || "",
+        fullPath: this.$route.fullPath || "",
+        meta: this.$route.meta || ""
       }
       const isFirstLevelRouter = /\/list$/.test(curRouter.path)
       let matched
-      if (window.localStorage.getItem('breadList')) {
-        matched = JSON.parse(matched)
+      let breadList = window.localStorage.getItem("breadList")
+      if (breadList) {
+        matched = JSON.parse(breadList)
       } else {
         matched = []
       }
