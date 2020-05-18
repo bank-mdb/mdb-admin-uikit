@@ -4,13 +4,11 @@
     <dy-form
       ref="dyForm"
       label-position="right"
-      :loading="loading"
-      :submitFunction="submitHandle"
-      :model="formModel"
+      :apis="apis"
       :formItems="formItems"
       label-width="130px"
+      @submit-failed="submitFailed"
     ></dy-form>
-    <!-- <el-button type="primary" @click="submitHandle">提交</el-button> -->
   </div>
 </template>
 <script>
@@ -19,12 +17,11 @@
 export default {
   data() {
     return {
-      formModel: {
-        name: "",
-        sex: 2,
-        birthday: "",
-      },
       loading: false,
+      apis: {
+        url: "/helloworld/zhangn",
+        method: "PUT"
+      },
       formItems: [
         [
           {
@@ -114,6 +111,7 @@ export default {
               placeholder: "请选择出生日期",
               clearable: true,
               type: "date",
+              "value-format": "yyyy-MM-dd",
               inputClass: "input-normal-size",
             },
           },
@@ -130,6 +128,9 @@ export default {
         console.log("失败", err);
       }
     },
+    submitFailed(err){
+      console.log("提交失败", err)
+    }
   },
 };
 </script>
