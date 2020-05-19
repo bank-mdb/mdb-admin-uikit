@@ -29,9 +29,9 @@ export function renderItemType (h, option, instance) {
     option.type,
     {
       model: {
-        value: option.prop ? instance.fatherForm.model[option.prop] : '',
+        value: option.prop ? instance.fatherForm.formModel[option.prop] : '',
         callback: newVal => {
-          if (option.prop) instance.fatherForm.model[option.prop] = newVal
+          if (option.prop) instance.fatherForm.formModel[option.prop] = newVal
         }
       },
       props: {
@@ -73,9 +73,9 @@ export function renderFormItemType (h, option, instance) {
         option.type,
         {
           model: {
-            value: option.prop ? instance.fatherForm.model[option.prop] : '',
+            value: option.prop ? instance.fatherForm.formModel[option.prop] : '',
             callback: newVal => {
-              if (option.prop) instance.fatherForm.model[option.prop] = newVal
+              if (option.prop) instance.fatherForm.formModel[option.prop] = newVal
             }
           },
           props: {
@@ -164,4 +164,103 @@ export function validateForms() {
     socrllToErrorMessageItem()
     throw err;
   });
+}
+
+/*
+  apis：为调用的接口配置，参考dy-button，必需的
+  vm：为当前vue实例，必需的
+  propName：当前vue实例中按钮绑定loading的属性名称，非必需的
+*/
+export function mergeRequest(apis, vm, propName) {
+  let res;
+  if (vm && propName !== undefined) {
+    vm[propName] = true;
+  }
+
+  return new Promise((resolve, reject) => {
+    vm.$nextTick(async () => {
+      let tp = Object.prototype.toString.call(apis);
+      if (tp === "[object Object]" && !apis.cancel) {
+        try {
+          let param;
+          if (typeof apis.param === "function") {
+            param = apis.param();
+          } else {
+            // 如果没有传入param对象，则默认为表单model
+            param = apis.param || vm.model;
+          }
+          res = await vm.$http[apis["method"].toLowerCase()](
+            apis.url,
+            param
+          );
+          if (vm && propName !== undefined) {
+            vm[propName] = false;
+          }
+          resolve(res);
+        } catch (err) {
+          if (vm && propName !== undefined) {
+            vm[propName] = false;
+          }
+          console.log(err);
+          reject(err);
+        }
+      } else if (tp === "[object Array]") {
+        let useApis = apis.filter(o => !o.cancel);
+        let param,
+          end = 0,
+          length = useApis.length;
+        // foreach,map 循环不能中止(在异步请求，抛出异常也不能中断)，所以考虑用for循环
+        let fn = async () => {
+          for (let i = 0; i < length; i++) {
+            try {
+              if (typeof useApis[i].param === "function") {
+                param = useApis[i].param(res);
+              } else {
+                param = useApis[i].param;
+                if(i === 0) {
+                  param = param || vm.model;
+                }
+              }
+              res = await vm.$http[useApis[i]["method"].toLowerCase()](
+                useApis[i].url,
+                param
+              );
+              end++;
+              if (end === length) {
+                if (vm && propName !== undefined) {
+                  vm[propName] = false;
+                }
+                resolve(res);
+              }
+            } catch (er) {
+              if (vm && propName !== undefined) {
+                vm[propName] = false;
+              }
+              reject(er);
+              break;
+            }
+          }
+        };
+        fn();
+      } else {
+        resolve("do nothing");
+      }
+    });
+  });
+}
+
+const createFormModel = (option, formModel) => {
+  if(option.prop) {
+    formModel[option.prop] = formModel[option.prop] || ""
+  }
+  if(Array.isArray(option.children)) {
+    option.children.forEach(i => createFormModel(i, formModel))
+  }
+}
+
+// formItems 必须是一个二维数组
+export function createFormModelByFormItems(formItems, formModel) {
+  formItems.forEach(item => {
+    item.forEach(i => createFormModel(i, formModel))
+  })
 }

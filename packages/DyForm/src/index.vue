@@ -2,7 +2,7 @@
   <div class="dy-form-panel">
     <el-form
       ref="elForm"
-      :model="model"
+      :model="formModel"
       v-bind="$attrs"
       v-on="$listeners"
       class="dy-form"
@@ -22,9 +22,9 @@
             :options="formItem"
             v-bind="$attrs"
             v-on="$listeners"
-            v-model="model[formItem.prop]"
-            :propAppend.sync="model[formItem.props.propAppend]"
-            :propPrepend.sync="model[formItem.props.propPrepend]"
+            v-model="formModel[formItem.prop]"
+            :propAppend.sync="formModel[formItem.props.propAppend]"
+            :propPrepend.sync="formModel[formItem.props.propPrepend]"
           ></dynamic-item>
           <dynamic-multi-items
             v-else-if="
@@ -39,12 +39,11 @@
             :options="formItem"
             v-bind="$attrs"
             v-on="$listeners"
-            v-model="model[formItem.prop]"
           ></dynamic-col>
         </div>
       </el-row>
     </el-form>
-    <el-button type="primary" v-if="showSubmitButton" class="submit-button" @click="submitHandle" :loading="loading">{{submitButtonContent}}</el-button>
+    <dy-button ref="dyBtn" :model="formModel" type="primary" :loading="loading" :apis="apis" v-if="showSubmitButton" class="submit-button" @click="submitHandle">{{submitButtonContent}}</dy-button>
   </div>
 </template>
 <script>
@@ -53,6 +52,9 @@ import dynamicCol from "./dynamicCol";
 import dynamicMultiItems from "./dynamicMultiItems";
 import nonRenderFormItem from "./nonRenderFormItem";
 import { socrllToErrorMessageItem } from "./utils/index.js";
+import dyButton from "./DynamicButton/index.vue"
+import { createFormModelByFormItems } from "./utils/index.js"
+
 /*
 更新说明： 
   20200331：
@@ -64,12 +66,14 @@ export default {
   components: {
     dynamicItem,
     dynamicCol,
-    dynamicMultiItems
+    dynamicMultiItems,
+    dyButton
   },
   data(){
     return {
       nonRenderFormItemData: nonRenderFormItem,
-      loading: false
+      loading: false,
+      formModel: this.model || {}
     };
   },
   provide() {
@@ -78,13 +82,10 @@ export default {
     };
   },
   props: {
-    model: {
-      type: Object,
-      default: () => {}
-    },
+    model: Object,
     formItems: {
       type: Array,
-      default: () => []
+      required: true
     },
     showSubmitButton: {
       type: Boolean,
@@ -94,6 +95,21 @@ export default {
     submitButtonContent: {
       type: String,
       default: "确认"
+    },
+    apis: [Object, Array]
+  },
+  created(){
+    let ml = {};
+    createFormModelByFormItems(this.formItems, ml);
+    if(Object.keys(this.formModel).length === 0) {
+      this.formModel = ml;
+    } else {
+      // 如果model只传了部分属性，将其他属性补全
+      Object.keys(ml).forEach(key => {
+        if(!(key in this.formModel)) {
+          this.$set(this.formModel, key, "");
+        }
+      })
     }
   },
   methods: {
@@ -112,10 +128,20 @@ export default {
       this.$refs.elForm.clearValidate();
     },
     submitHandle(){
-      this.$refs.elForm.validate(result => {
+      this.$refs.elForm.validate(async result => {
         if(result) {
-          this.loading = true;
-          this.submitFunction && this.submitFunction();
+          try {
+            if(typeof this.submitFunction === "function") {
+              this.loading = true;
+              this.submitFunction();
+            } else if(this.apis) {
+              let res = await this.$refs.dyBtn.submit();
+              this.$emit("submit-success", res);
+            }
+          } catch(err) {
+            console.log(err);
+            this.$emit("submit-failed", err);
+          }
         } else {
           socrllToErrorMessageItem();
         }
@@ -130,6 +156,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 20px;
 }
 .dy-form {
   width: 100%;
