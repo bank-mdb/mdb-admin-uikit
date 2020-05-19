@@ -1,3 +1,21 @@
+## v1.0.61（2020-05-18）
+
+### Bug Fixes
+
+- 面包屑组件跳转到不同项目的路径错误问题，
+
+## v1.0.60（2020-05-09）
+
+### Bug Fixes
+
+- 移除列表的右侧固定下划线
+
+## v1.0.59（2020-05-09）
+
+### Features
+
+- 优化 Breadcrumb 组件。
+
 ## v1.0.58（2020-05-08）
 
 ### Features
@@ -56,5 +74,5 @@
 
 ### Features
 
-- VTable 增加表头提示，在 colunms 中增加 tips 属性。
+- VTable 增加表头提示，在 columns 中增加 tips 属性。
 - AdvanceTable 增加属性，beforeLoad 方法，可以在列表请求数据前做处理。

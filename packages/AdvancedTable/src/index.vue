@@ -378,6 +378,10 @@ export default {
     border-top-color: #fff !important;
   }
 }
+.el-table__fixed-right::before,
+.el-table__fixed::before {
+  height: 0px;
+}
 //修改滚动条样式
 .el-table__body-wrapper {
   border-right: #2f2f2f;
