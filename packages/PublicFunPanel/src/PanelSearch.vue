@@ -10,7 +10,11 @@
       @input="handleSearchChange"
     ></el-input>
     <el-collapse-transition>
-      <div class="result" v-if="showResult" :style="{width:`${inputWidth}px`}">
+      <div
+        class="result"
+        v-if="showResult"
+        :style="{ width: `${inputWidth}px` }"
+      >
         <el-scrollbar :native="false" :noresize="false" tag="div">
           <div class="panel-wrapper">
             <PanelItem
@@ -32,55 +36,55 @@
   </div>
 </template>
 <script>
-import PanelItem from "./PanelItem.vue";
-import outside from "../directives/outside.js";
+import PanelItem from './PanelItem.vue'
+import outside from '../directives/outside.js'
 export default {
-  name: "PanelSearch",
+  name: 'PanelSearch',
   components: { PanelItem },
-  inject: ["publicFunPanel"],
+  inject: ['publicFunPanel'],
   directives: { outside },
   data() {
     return {
-      keyword: "",
+      keyword: '',
       showResult: false,
       result: [],
-      inputWidth:0
-    };
+      inputWidth: 0,
+    }
   },
   computed: {
     authMenuList() {
-      return this.publicFunPanel.authMenuList;
-    }
+      return this.publicFunPanel.authMenuList
+    },
   },
   methods: {
     handleClose() {
-      this.showResult = false;
+      this.showResult = false
     },
     handleOpen() {
-      this.showResult = true;
+      this.showResult = true
     },
     handleSearchChange() {
       const result = this.authMenuList.filter(
-        item =>
+        (item) =>
           this.keyword &&
           (item.title.includes(this.keyword) ||
             item.id.toLowerCase().includes(this.keyword.toLowerCase()))
-      );
-      this.result = result;
-    }
+      )
+      this.result = result
+    },
   },
-  mounted(){
-    this.inputWidth = this.$refs.input.$el.clientWidth;
+  mounted() {
+    this.inputWidth = this.$refs.input.$el.clientWidth
   },
   watch: {
     authMenuList: {
       handler() {
-        this.handleSearchChange();
+        this.handleSearchChange()
       },
-      deep: true
-    }
-  }
-};
+      deep: true,
+    },
+  },
+}
 </script>
 <style lang="scss" scoped>
 .panel-search {
@@ -104,16 +108,16 @@ export default {
         font-size: 80px;
       }
     }
-    .panel-wrapper{
+    .panel-wrapper {
       max-height: 500px;
-      padding:0 10px; 
+      padding: 0 10px;
     }
   }
 }
 </style>
 
 <style lang="scss">
-.public-fun-panel .el-scrollbar__wrap{
+.public-fun-panel .el-scrollbar__wrap {
   overflow-x: hidden !important;
 }
 </style>

@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       props: {
-        label: "title"
+        label: "title",
       },
       data: [
         {
@@ -36,16 +36,16 @@ export default {
                 {
                   id: 878,
                   pid: 877,
-                  title: "账户提现(账户信息)"
-                }
-              ]
-            }
-          ]
-        }
+                  title: "账户提现(账户信息)",
+                },
+              ],
+            },
+          ],
+        },
       ],
-      val: []
+      val: [],
     };
   },
-  methods: {}
+  methods: {},
 };
 </script>

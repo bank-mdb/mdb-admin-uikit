@@ -1,5 +1,7 @@
 import LoginPassword from "./LoginPassword";
 import PayPassword from "./PayPassword";
+import MdbColCaptcha from "./MdbColCaptcha";
+import AmountInput from "./AmountInput";
 
 import MdbColInput from "./MdbColInput";
 import MdbColSelect from "./MdbColSelect";
@@ -16,5 +18,7 @@ export {
   MdbColDatePicker,
   MdbColLabel,
   MdbColTitle,
-  MdbColRadioGroup
+  MdbColRadioGroup,
+  MdbColCaptcha,
+  AmountInput
 };

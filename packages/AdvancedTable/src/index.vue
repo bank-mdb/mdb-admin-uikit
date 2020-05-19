@@ -44,45 +44,45 @@
 </template>
 
 <script>
-import VTable from "../../VTable/src/index.vue";
-import SearchForm from "../../SearchForm/src/index.vue";
+import VTable from '../../VTable/src/index.vue'
+import SearchForm from '../../SearchForm/src/index.vue'
 export default {
-  name: "AdvancedTable",
+  name: 'AdvancedTable',
   inheritAttrs: false,
   components: {
     VTable,
-    SearchForm
+    SearchForm,
   },
   props: {
     defaultSort: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     query: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     columns: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     rules: {
       type: Array,
-      required: false
+      required: false,
     },
     url: {
       type: String,
-      required: true
+      required: true,
     },
     fileName: {
       type: String,
-      default: "columns"
+      default: 'columns',
     },
     expand: {
       type: Object,
-      required: false
+      required: false,
     },
-    beforeLoad: Function
+    beforeLoad: Function,
   },
   data() {
     return {
@@ -91,86 +91,86 @@ export default {
       mTotal: 0,
       mPager: {
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
       },
       mPagination: {
         background: true,
         hideOnSiglePage: false,
-        layout: "total,sizes, prev, pager, next"
+        layout: 'total,sizes, prev, pager, next',
       },
       queryParam: {},
-      isDevelop: false
-    };
+      isDevelop: false,
+    }
   },
   computed: {
     tableColum() {
-      return this.columns;
-    }
+      return this.columns
+    },
   },
   mounted() {
     if (this.$refs.searchForm) {
-      this.queryParam = this.$refs.searchForm.getData();
+      this.queryParam = this.$refs.searchForm.getData()
     }
-    this.setQueryParam();
-    this.onBeforeLoad();
+    this.setQueryParam()
+    this.onBeforeLoad()
   },
   methods: {
     setQueryParam() {
-      if (!this.rules || (this.query && this.query["tab_index"])) return;
-      const query = this.$route.query;
-      const pageNo = parseInt(query.pageNo) || 1;
-      const pageSize = parseInt(query.pageSize) || 10;
-      this.mPager = { pageNo: pageNo, pageSize: pageSize };
-      delete query["pageNo"];
-      delete query["pageSize"];
-      this.queryParam = Object.assign({}, this.queryParam, query);
-      Object.keys(this.queryParam).forEach(key => {
-        this.rules.forEach(item => {
+      if (!this.rules || (this.query && this.query['tab_index'])) return
+      const query = this.$route.query
+      const pageNo = parseInt(query.pageNo) || 1
+      const pageSize = parseInt(query.pageSize) || 10
+      this.mPager = { pageNo: pageNo, pageSize: pageSize }
+      delete query['pageNo']
+      delete query['pageSize']
+      this.queryParam = Object.assign({}, this.queryParam, query)
+      Object.keys(this.queryParam).forEach((key) => {
+        this.rules.forEach((item) => {
           if (item.field === key && this.queryParam[key]) {
-            item["value"] = this.queryParam[key];
+            item['value'] = this.queryParam[key]
           }
-        });
-      });
+        })
+      })
       //针对日期类型
-      this.rules.forEach(item => {
-        if (item.type == "date") {
-          let tempField = item.field; //array
-          if (typeof item.field === "string") {
+      this.rules.forEach((item) => {
+        if (item.type == 'date') {
+          let tempField = item.field //array
+          if (typeof item.field === 'string') {
             //兼容旧版
-            tempField = ["startDate", "endDate"];
+            tempField = ['startDate', 'endDate']
           }
           if (this.queryParam[tempField[0]] && this.queryParam[tempField[1]]) {
-            item["value"] = [
+            item['value'] = [
               this.queryParam[tempField[0]],
-              this.queryParam[tempField[1]]
-            ];
+              this.queryParam[tempField[1]],
+            ]
           }
-        } else if (item.type == "cascader") {
-          let tempFields = item.field; //array
-          item["value"] = tempFields.map(key => this.queryParam[key]);
+        } else if (item.type == 'cascader') {
+          let tempFields = item.field //array
+          item['value'] = tempFields.map((key) => this.queryParam[key])
         }
-      });
+      })
     },
     onSubmit: function(params) {
-      this.queryParam = params;
-      this.refresh(true);
+      this.queryParam = params
+      this.refresh(true)
     },
     /**
      * 显示条数改变
      * @param {Number} _pageSize
      */
     onPageSizeChange(_pageSize) {
-      this.mPager["pageNo"] = 1;
-      this.mPager["pageSize"] = _pageSize;
-      this.onBeforeLoad();
+      this.mPager['pageNo'] = 1
+      this.mPager['pageSize'] = _pageSize
+      this.onBeforeLoad()
     },
     /**
      * 分页的当前页改变时
      * @param {Number} _pageNo
      */
     onPageIndexChange(_pageNo) {
-      this.mPager.pageNo = _pageNo;
-      this.onBeforeLoad();
+      this.mPager.pageNo = _pageNo
+      this.onBeforeLoad()
     },
     /**
      * 表格重新加载方法
@@ -178,21 +178,16 @@ export default {
      */
     refresh(bool = false) {
       if (bool) {
-        this.mPager.pageNo = 1;
+        this.mPager.pageNo = 1
       }
-      this.onBeforeLoad();
+      this.onBeforeLoad()
     },
     onBeforeLoad() {
-      const params = Object.assign(
-        {},
-        this.query,
-        this.mPager,
-        this.queryParam
-      );
-      if (typeof this.beforeLoad === "function") {
-        this.beforeLoad(params, this.loadData);
+      const params = Object.assign({}, this.query, this.mPager, this.queryParam)
+      if (typeof this.beforeLoad === 'function') {
+        this.beforeLoad(params, this.loadData)
       } else {
-        this.loadData(params);
+        this.loadData(params)
       }
     },
     /**
@@ -202,54 +197,60 @@ export default {
      * @param {Object} sorter 排序条件
      */
     loadData(params) {
-      if (this.mLoading || !this.url) return;
-      this.mLoading = true;
-      this.$emit("load", params);
+      if (this.mLoading || !this.url) return
+      this.mLoading = true
+      this.$emit('load', params) //兼容旧版本
+      this.$emit('load-before', params)
       const result = this.$http.get(this.url, {
-        params: params
-      });
-      this.$router.replace({ query: params });
+        params: params,
+      })
+      this.$router.replace({ query: params })
       // 对接自己的通用数据接口需要修改下方代码中的 r.pageNo, r.totalCount, r.data
       result
-        .then(response => {
+        .then((response) => {
           // 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页
           if (response.data.length === 0 && this.mPager.pageNo > 1) {
-            this.mPager.pageNo--;
-            this.loadData();
-            return;
+            this.mPager.pageNo--
+            this.loadData()
+            return
           }
-          this.mTotal = response.total;
-          this.mDataSource = response.data;
-          this.mLoading = false;
+          this.mTotal = response.total
+          this.mDataSource = response.data
+          this.mLoading = false
+          this.$emit('load-success')
         })
         .catch(() => {
-          this.mTotal = 0;
-          this.mDataSource = [];
-          this.mLoading = false;
-        });
+          this.mTotal = 0
+          this.mDataSource = []
+          this.mLoading = false
+          this.$emit('load-error')
+        })
+    },
+    getData() {
+      return this.mDataSource
     },
     celldbclick(row, column, cell) {
-      const copyValue = row[column.property];
-      if (!copyValue) return;
-      const clipboardDiv = cell;
-      clipboardDiv.focus();
-      window.getSelection().removeAllRanges();
-      var range = document.createRange();
-      range.setStartBefore(clipboardDiv.firstChild);
-      range.setEndAfter(clipboardDiv.lastChild);
-      window.getSelection().addRange(range);
+      const copyValue = row[column.property]
+      if (!copyValue) return
+      const clipboardDiv = cell
+      clipboardDiv.focus()
+      window.getSelection().removeAllRanges()
+      var range = document.createRange()
+      range.setStartBefore(clipboardDiv.firstChild)
+      range.setEndAfter(clipboardDiv.lastChild)
+      window.getSelection().addRange(range)
       try {
-        if (document.execCommand("copy")) {
-          this.$message.success("已复制到剪贴板");
+        if (document.execCommand('copy')) {
+          this.$message.success('已复制到剪贴板')
         } else {
-          this.$message.error("未能复制到剪贴板，请全选后右键复制");
+          this.$message.error('未能复制到剪贴板，请全选后右键复制')
         }
       } catch (err) {
-        this.$message.error("未能复制到剪贴板，请全选后右键复制");
+        this.$message.error('未能复制到剪贴板，请全选后右键复制')
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="scss">
@@ -325,10 +326,10 @@ export default {
     .cell {
       white-space: nowrap;
     }
-    .el-table__expanded-cell[class*="cell"] {
+    .el-table__expanded-cell[class*='cell'] {
       background: #f2f6fc;
     }
-    .el-table__expanded-cell[class*="cell"]:hover {
+    .el-table__expanded-cell[class*='cell']:hover {
       background: #f2f6fc !important;
     }
   }
@@ -376,6 +377,10 @@ export default {
   .popper__arrow::after {
     border-top-color: #fff !important;
   }
+}
+.el-table__fixed-right::before,
+.el-table__fixed::before {
+  height: 0px;
 }
 //修改滚动条样式
 .el-table__body-wrapper {

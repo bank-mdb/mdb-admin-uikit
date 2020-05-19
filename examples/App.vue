@@ -10,28 +10,33 @@
     <SearchFormDemo></SearchFormDemo>
     <dy-form-demo></dy-form-demo>
     <PublicFunPanelDemo></PublicFunPanelDemo>
-    <div style="height: 800px;"></div>
+    <h2>DetailList demo</h2>
+    <DetailListDemo></DetailListDemo>
+    <h2>DrawerMenuDemo demo(right sidebar)</h2>
+    <DrawerMenuDemo></DrawerMenuDemo>
   </div>
 </template>
 
 <script>
-import TreeSelectDemo from "./components/TreeSelectDemo";
-import VTableDemo from "./components/VTableDemo";
-import SearchFormDemo from "./components/SearchFormDemo";
-import DyFormDemo from "./components/DyFormDemo";
-import PublicFunPanelDemo from "./components/PublicFunPanelDemo";
+import TreeSelectDemo from './components/TreeSelectDemo'
+import VTableDemo from './components/VTableDemo'
+import SearchFormDemo from './components/SearchFormDemo'
+import DyFormDemo from './components/DyFormDemo'
+import PublicFunPanelDemo from './components/PublicFunPanelDemo'
+import DetailListDemo from './components/DetailListDemo'
+import DrawerMenuDemo from './components/DrawerMenuDemo'
 export default {
-  name: "App",
-  components: { TreeSelectDemo, VTableDemo, SearchFormDemo, DyFormDemo,PublicFunPanelDemo }
-};
-import Vue from "vue";
-var Profile = Vue.extend({
-  template: "<p>{{firstName {{lastName}}</p>",
-  data: function() {
-    return { lastName: "wulin", firstName: "deng" };
-  }
-});
-new Profile().$mount(document.querySelector("#extend_div"));
+  name: 'App',
+  components: {
+    TreeSelectDemo,
+    VTableDemo,
+    SearchFormDemo,
+    DyFormDemo,
+    PublicFunPanelDemo,
+    DetailListDemo,
+    DrawerMenuDemo,
+  },
+}
 </script>
 
 <style>
