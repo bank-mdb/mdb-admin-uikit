@@ -1,3 +1,9 @@
+## v1.0.64（2020-05-20）
+
+### Features
+
+- dy-form 组件 调整apis.param优先级比表单model高
+
 ## v1.0.63（2020-05-19）
 
 ### Features
