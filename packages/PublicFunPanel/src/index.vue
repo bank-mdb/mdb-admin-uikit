@@ -2,11 +2,7 @@
   <div class="public-fun-panel">
     <PanelSearch v-on="$listeners"></PanelSearch>
     <div :style="{ height: `${panelHeight}px` }">
-      <el-scrollbar
-        :native="false"
-        :noresize="false"
-        tag="div"
-      >
+      <el-scrollbar :native="false" :noresize="false" tag="div">
         <div :style="{ maxHeight: `${panelHeight}px` }">
           <PanelItem
             :content="item.content"
@@ -22,79 +18,73 @@
   </div>
 </template>
 <script>
-import PanelItem from "./PanelItem.vue"
-import PanelSearch from "./PanelSearch.vue"
+import PanelItem from './PanelItem.vue'
+import PanelSearch from './PanelSearch.vue'
 export default {
-  name: "PublicFunPanel",
+  name: 'PublicFunPanel',
   components: {
     PanelItem,
-    PanelSearch
+    PanelSearch,
   },
-  provide () {
+  provide() {
     return {
-      publicFunPanel: this
+      publicFunPanel: this,
     }
   },
   props: {
     functions: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     productPrefixFile: {
       type: Array,
-      default: () => []
-    },
-    // vue.config文件里面配置的publicPath
-    publicPath: {
-      type: String,
-      required: true,
-      default: "/"
+      default: () => [],
     },
     // 用于调整高度
     adjustHeight: {
       type: Number,
-      default: 140
-    }
+      default: 140,
+    },
   },
-  data () {
+  data() {
     return {
-      panelHeight: 0
+      panelHeight: 0,
     }
   },
   computed: {
-    authMenuList () {
-      return this.functions.map(item => {
+    authMenuList() {
+      return this.functions.map((item) => {
         return {
           ...item,
-          path: `/${item.url.replace(/_+/g, "-")}`,
+          path: `/${item.url.replace(/_+/g, '-')}`,
         }
       })
     },
-    features () {
+    features() {
       let CollectedFeatures = this.authMenuList.filter(
-        item => item.icon === "true"
+        (item) => item.icon === 'true'
       )
-      const otherFeatures = this.productPrefixFile.map(prefixItem => {
-        let filterFeatures = this.authMenuList.filter(item =>
+      const otherFeatures = this.productPrefixFile.map((prefixItem) => {
+        let filterFeatures = this.authMenuList.filter((item) =>
           item.id.includes(prefixItem.prefix)
         )
         return {
           title: prefixItem.title,
-          content: filterFeatures
+          content: filterFeatures,
         }
       })
       return [
         {
-          title: "我的收藏",
+          title: '我的收藏',
           content: CollectedFeatures,
-          hideEmptyItem: false
+          hideEmptyItem: false,
         },
-        ...otherFeatures
+        ...otherFeatures,
       ]
-    }
+    },
   },
   methods: {
-    handleResize () {
+    handleResize() {
       const windowHeight = window.innerHeight
       const headerHeight = 70
       const footerHeight = 90
@@ -107,16 +97,16 @@ export default {
         publicFunPanelSearchHeight -
         marginValue +
         this.adjustHeight
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.handleResize()
-    window.addEventListener("resize", this.handleResize)
+    window.addEventListener('resize', this.handleResize)
   },
-  beforeDestroy () {
-    window.removeEventListener("resize", this.handleResize)
-  }
-};
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
+  },
+}
 </script>
 <style lang="scss">
 .public-fun-panel {

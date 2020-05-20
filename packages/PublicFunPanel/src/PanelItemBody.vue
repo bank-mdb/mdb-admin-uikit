@@ -1,6 +1,6 @@
 <template>
   <div class="panel-item-body">
-    <div class="text" @click="handleGoToPage">
+    <div class="text" @click="handleGoToPage(content)">
       {{ content.id }} {{ content.title }}
     </div>
     <div class="icon" @click="handleCollected">
@@ -12,34 +12,36 @@
 </template>
 <script>
 export default {
-  name: "PanelItemBody",
-  inject: ["publicFunPanel"],
+  name: 'PanelItemBody',
+  inject: ['publicFunPanel'],
   props: {
-    content: Object
+    content: Object,
   },
   methods: {
     async handleCollected() {
       this.$emit(
-        "collectionChange",
+        'collectionChange',
         this.content.id,
-        this.content.icon === "true"
-      );
+        this.content.icon === 'true'
+      )
     },
-    handleGoToPage() {
+    handleGoToPage(content) {
       let [prefixFile = {}] = this.publicFunPanel.productPrefixFile.filter(
-        item => this.content.id.includes(item.prefix)
-      );
-      if (prefixFile.publicPath === this.publicFunPanel.publicPath) {
-        this.$router.push({ path: this.content.path });
+        (item) => content.id.includes(item.prefix)
+      )
+      let base = this.$router.options.base
+      base = base === '/' ? base : base.substr(0, base.length - 1)
+      if (prefixFile.publicPath === base) {
+        this.$router.push({ path: content.path })
       } else {
         let publicPath =
-          prefixFile.publicPath === "/" ? "" : prefixFile.publicPath;
+          prefixFile.publicPath === '/' ? '' : prefixFile.publicPath
         window.location.href =
-          window.location.origin + publicPath + this.content.path;
+          window.location.origin + publicPath + content.path
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 <style lang="scss" scoped>
 .panel-item-body {
