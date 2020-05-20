@@ -37,7 +37,7 @@
 </template>
 <script>
 import PanelItem from './PanelItem.vue'
-import outside from './directives/outside.js'
+import outside from '../directives/outside.js'
 export default {
   name: 'PanelSearch',
   components: { PanelItem },
