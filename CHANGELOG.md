@@ -1,3 +1,9 @@
+## v1.0.66（2020-05-21）
+
+### Features
+
+- dy-form 组件 提交之前增加beforeSubmit回调，返回false或true，true继续提交
+
 ## v1.0.65（2020-05-20）
 
 ### Features
