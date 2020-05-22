@@ -1,3 +1,9 @@
+## v1.0.71（2020-05-22）
+
+###  Features
+
+- dy-form 绑定model支持 Array
+
 ## v1.0.70（2020-05-22）
 
 ### Bug Fixes
