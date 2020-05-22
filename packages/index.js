@@ -10,7 +10,9 @@ import Drawer from './Drawer/index.js'
 import DetailList from './DetailList/index.js'
 import Breadcrumb from './Breadcrumb/index.js'
 import DrawerMenu from './DrawerMenu/index.js'
-import BrowserTips from './BrowserTips/index.js'
+// import BrowserTips from './BrowserTips/index.js'
+import BaseSvgIcon from './BaseSvgIcon/index.js'
+
 const components = [
   TreeSelect,
   VTable,
@@ -22,7 +24,8 @@ const components = [
   DetailList,
   Breadcrumb,
   DrawerMenu,
-  BrowserTips
+  // BrowserTips,
+  BaseSvgIcon
 ]
 
 // eslint-disable-next-line no-unused-vars
