@@ -189,7 +189,7 @@ export function mergeRequest(apis, vm, propName) {
             // 如果没有传入param对象，则默认为表单model
             param = apis.param || {};
           }
-          param = Object.assign(vm.model, param); // param优先级更高
+          param = Object.assign({...vm.model}, param); // param优先级更高
           res = await vm.$http[apis["method"].toLowerCase()](
             apis.url,
             param
@@ -220,7 +220,7 @@ export function mergeRequest(apis, vm, propName) {
                 param = useApis[i].param;
                 if(i === 0) {
                   param = param || {};
-                  param = Object.assign(vm.model, param);
+                  param = Object.assign({...vm.model}, param);
                 }
               }
               res = await vm.$http[useApis[i]["method"].toLowerCase()](

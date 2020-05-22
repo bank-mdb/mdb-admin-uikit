@@ -1,20 +1,32 @@
+## v1.0.67（2020-05-22）
+
+### Bug Fixes
+
+- 修复列表的分页导航分页数字显示错误的问题。
+
+## v1.0.66（2020-05-21）
+
+### Features
+
+- dy-form  组件   提交之前增加 beforeSubmit 回调，返回 false 或 true，true 继续提交
+
 ## v1.0.65（2020-05-20）
 
 ### Features
 
-- dy-form 组件 支持动态添加表单
+- dy-form  组件   支持动态添加表单
 
 ## v1.0.64（2020-05-20）
 
 ### Features
 
-- dy-form 组件 调整apis.param优先级比表单model高
+- dy-form  组件   调整 apis.param 优先级比表单 model 高
 
 ## v1.0.63（2020-05-19）
 
 ### Features
 
-- dy-form 组件 合并apis.param参数和表单model对象为提交接口的最终值
+- dy-form  组件   合并 apis.param 参数和表单 model 对象为提交接口的最终值
 
 ## v1.0.62（2020-05-19）
 

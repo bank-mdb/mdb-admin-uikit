@@ -96,7 +96,9 @@ export default {
       type: String,
       default: "确认"
     },
-    apis: [Object, Array]
+    apis: [Object, Array],
+    // 提交之前的回调，不提交返回false
+    beforeSubmit: Function
   },
   watch: {
     model: function(val) {
@@ -156,9 +158,17 @@ export default {
               this.loading = true;
               this.submitFunction();
             } else if(this.apis) {
+              if(typeof this.beforeSubmit === "function") {
+                if(!this.beforeSubmit()) {
+                  // 不允许提交，直接返回
+                  return;
+                }
+              }
               let res = await this.$refs.dyBtn.submit();
               this.$emit("submit-success", res);
-            }
+            } else {
+              throw new Error("请设置提交方式 submitFunction 或 apis")
+            }  
           } catch(err) {
             console.log(err);
             this.$emit("submit-failed", err);

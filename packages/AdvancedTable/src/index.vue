@@ -107,7 +107,7 @@ export default {
       return this.columns
     },
   },
-  mounted() {
+  created() {
     if (this.$refs.searchForm) {
       this.queryParam = this.$refs.searchForm.getData()
     }
