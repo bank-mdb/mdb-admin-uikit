@@ -4,6 +4,7 @@ node_modules/
 public/
 examples/
 .history/
+lib/
 
 # 忽略的文件
 ###########################
