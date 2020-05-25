@@ -1,3 +1,9 @@
+## v1.0.72（2020-05-25）
+
+###  Features
+
+- dy-form 新增phone-input组件
+
 ## v1.0.71（2020-05-22）
 
 ###  Features

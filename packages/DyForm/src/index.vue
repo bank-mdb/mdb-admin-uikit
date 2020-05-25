@@ -107,7 +107,7 @@ export default {
       this.formModel = val;
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
-          this.$set(this.formModel, key, "")
+          this.$set(this.formModel, key, ml[key])
         }
       })
     },
@@ -116,7 +116,7 @@ export default {
       createFormModelByFormItems(val, ml)
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
-          this.$set(this.formModel, key, "")
+          this.$set(this.formModel, key, ml[key])
         }
       })
     }
@@ -134,7 +134,7 @@ export default {
       // 如果model只传了部分属性，将其他属性补全
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
-          this.$set(this.formModel, key, "");
+          this.$set(this.formModel, key, ml[key]);
         }
       })
     }
