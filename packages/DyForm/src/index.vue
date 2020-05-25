@@ -121,6 +121,10 @@ export default {
       })
     }
   },
+  beforeCreate(){
+    // 拿到在父组件注册过的组件，这里不清楚上面还嵌套了多少层，目前只取上一层的局部注册组件
+    Object.assign(this.$options.components, this.$parent.$options.components)
+  },
   created(){
     let ml = {};
     createFormModelByFormItems(this.formItems, ml);

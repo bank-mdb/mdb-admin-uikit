@@ -25,11 +25,12 @@ export function createChildrenElements (h, children, instance) {
 }
 
 export function renderItemType (h, option, instance) {
+  let defaultValue = option.valueType === "Array" ? [] : "";
   return h(
     option.type,
     {
       model: {
-        value: option.prop ? instance.fatherForm.formModel[option.prop] : '',
+        value: option.prop ? instance.fatherForm.formModel[option.prop] : defaultValue,
         callback: newVal => {
           if (option.prop) instance.fatherForm.formModel[option.prop] = newVal
         }
@@ -57,6 +58,7 @@ export function renderItemType (h, option, instance) {
 export function renderFormItemType (h, option, instance) {
   let typeCLass = `${(option.props && option.props.inputClass) ||
     ''} ${option.class || ''} ${option.inputClass || ''}`
+  let defaultValue = option.valueType === "Array" ? [] : "";
   return h(
     'el-form-item',
     {
@@ -73,7 +75,7 @@ export function renderFormItemType (h, option, instance) {
         option.type,
         {
           model: {
-            value: option.prop ? instance.fatherForm.formModel[option.prop] : '',
+            value: option.prop ? instance.fatherForm.formModel[option.prop] : defaultValue,
             callback: newVal => {
               if (option.prop) instance.fatherForm.formModel[option.prop] = newVal
             }
@@ -253,7 +255,8 @@ export function mergeRequest(apis, vm, propName) {
 
 const createFormModel = (option, formModel) => {
   if(option.prop) {
-    formModel[option.prop] = formModel[option.prop] || ""
+    let defaultValue = option.valueType === "Array" ? [] : "";
+    formModel[option.prop] = formModel[option.prop] || defaultValue
   }
   if(Array.isArray(option.children)) {
     option.children.forEach(i => createFormModel(i, formModel))
