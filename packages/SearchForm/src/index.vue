@@ -25,6 +25,7 @@
             :clearable="item.clearable || true"
             :remote="item.remote || false"
             :remote-method="item.filter"
+            @keyup.enter.native="bindNull"
           >
             <el-option
               v-for="option in parseOption(item.options, item)"
@@ -59,6 +60,7 @@
             v-model="ruleForm[item.field]"
             :options="item.options"
             :placeholder="item.placeholder"
+            @keyup.enter.native="bindNull"
           ></el-cascader>
           <!-- input range -->
           <el-row v-else-if="item.type == 'range'">
@@ -66,6 +68,7 @@
               <el-input
                 v-model.trim="ruleForm[item.field[0]]"
                 :placeholder="rangePlaceHolder(item.placeholder, 0)"
+                @keyup.enter.native="bindNull"
               >
                 <template v-if="item.prepend" slot="prepend">{{
                   item.prepend
@@ -79,6 +82,7 @@
               <el-input
                 v-model.trim="ruleForm[item.field[1]]"
                 :placeholder="rangePlaceHolder(item.placeholder, 1)"
+                @keyup.enter.native="bindNull"
                 ><template v-if="item.prepend" slot="prepend">{{
                   item.prepend
                 }}</template>
@@ -220,6 +224,7 @@ export default {
       if (Array.isArray(placeholder)) return placeholder[index]
       return placeholder
     },
+    bindNull(){}
   },
 }
 </script>
