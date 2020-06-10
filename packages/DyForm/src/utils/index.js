@@ -184,14 +184,12 @@ export function mergeRequest(apis, vm, propName) {
       let tp = Object.prototype.toString.call(apis);
       if (tp === "[object Object]" && !apis.cancel) {
         try {
-          let param;
+          let param = {...vm.model};
           if (typeof apis.param === "function") {
-            param = apis.param();
+            param = apis.param(param);
           } else {
-            // 如果没有传入param对象，则默认为表单model
-            param = apis.param || {};
+            Object.assign(param, apis.param);
           }
-          param = Object.assign({...vm.model}, param); // param优先级更高
           res = await vm.$http[apis["method"].toLowerCase()](
             apis.url,
             param
@@ -216,14 +214,15 @@ export function mergeRequest(apis, vm, propName) {
         let fn = async () => {
           for (let i = 0; i < length; i++) {
             try {
-              if (typeof useApis[i].param === "function") {
-                param = useApis[i].param(res);
-              } else {
-                param = useApis[i].param;
-              }
               if(i === 0) {
-                param = param || {};
-                param = Object.assign({...vm.model}, param);
+                param = {...vm.model};
+              } else {
+                param = {}
+              }
+              if (typeof useApis[i].param === "function") {
+                param = useApis[i].param(res || param); // 第一次res为空，传入表单值
+              } else {
+                Object.assign(param, useApis[i].param);
               }
               res = await vm.$http[useApis[i]["method"].toLowerCase()](
                 useApis[i].url,
