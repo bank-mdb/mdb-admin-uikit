@@ -1,3 +1,9 @@
+## v1.0.79（2020-06-10）
+
+###  Bug Fixes
+
+- advanceTable 通过 Vue 对象无法访问到\$http 对象。
+
 ## v1.0.78（2020-06-08）
 
 ###  Bug Fixes
