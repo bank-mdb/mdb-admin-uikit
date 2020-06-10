@@ -1,20 +1,32 @@
-## v1.0.73（2020-06-05）
+## v1.0.78（2020-06-08）
 
 ###  Bug Fixes
 
-- searchForm 修复
+- advanceTable 在通过挂载的方式加载无法访问到\$route 对象。
+
+## v1.0.76（2020-06-08）
+
+###  Bug Fixes
+
+- advanceTable 在 query 参数更新后，组件内部的参数未发生变化。
+
+## v1.0.75（2020-06-05）
+
+###  Bug Fixes
+
+- searchForm 修复,只有一个输入框（el-input）的情况下，回车会提交表单
 
 ## v1.0.72（2020-05-25）
 
 ###  Features
 
-- dy-form 新增phone-input组件
+- dy-form 新增 phone-input 组件
 
 ## v1.0.71（2020-05-22）
 
 ###  Features
 
-- dy-form 绑定model支持 Array, 支持自定义组件在使用dy-form组件的地方注册为局部组件
+- dy-form 绑定 model 支持 Array, 支持自定义组件在使用 dy-form 组件的地方注册为局部组件
 
 ## v1.0.70（2020-05-22）
 
