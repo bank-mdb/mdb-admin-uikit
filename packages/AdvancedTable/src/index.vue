@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import VTable from "../../VTable/src/index.vue";
 import SearchForm from "../../SearchForm/src/index.vue";
 export default {
@@ -213,7 +212,7 @@ export default {
       this.mLoading = true;
       this.$emit("load", params); //兼容旧版本
       this.$emit("load-before", params);
-      const result = Vue.$http.get(this.url, {
+      const result = this.$http.get(this.url, {
         params: params
       });
       try {
