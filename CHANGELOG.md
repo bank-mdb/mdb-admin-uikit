@@ -1,3 +1,9 @@
+## v1.0.80（2020-06-10）
+
+###  Bug Fixes
+
+- dy-form 避免直接修改formModel
+
 ## v1.0.79（2020-06-10）
 
 ###  Bug Fixes
