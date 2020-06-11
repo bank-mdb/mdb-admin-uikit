@@ -157,8 +157,6 @@ export default {
     async getFormData(){
       if(this.dataGetter && this.dataGetter.url) {
         let { data } = await this.$http.get(this.dataGetter.url);
-        // 保证和父组件传入的model始终为同一个引用
-        Object.keys(this.formModel).forEach(key => Reflect.deleteProperty(this.formModel, key));
         Object.assign(this.formModel, data);
         if(typeof this.dataGetter.arrange === 'function') {
           this.dataGetter.arrange(this.formModel);
