@@ -1,3 +1,9 @@
+## v1.0.81（2020-06-11）
+
+###   Features
+
+- dy-form 新增dataGetter对象属性，用于编辑表单情况，含两个属性，url：接口地址，arrange：formModel => {}支持自己重新组装formModel某些属性
+
 ## v1.0.80（2020-06-10）
 
 ###  Bug Fixes

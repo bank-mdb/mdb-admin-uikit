@@ -98,7 +98,15 @@ export default {
     },
     apis: [Object, Array],
     // 提交之前的回调，不提交返回false
-    beforeSubmit: Function
+    beforeSubmit: Function,
+    /*
+      编辑表单时获取表单数据，包含两个属性，1，url；2，arrange
+      {
+        url: 获取数据地址  必需的
+        arrange: formModel => {}  在formModel对象上对返回数据重新处理，如果有必要的话
+      }
+    */
+    dataGetter: Object, 
   },
   watch: {
     model: function(val) {
@@ -119,6 +127,9 @@ export default {
           this.$set(this.formModel, key, ml[key])
         }
       })
+    },
+    "dataGetter.url": function(val) {
+      this.getFormData();
     }
   },
   beforeCreate(){
@@ -139,7 +150,19 @@ export default {
       })
     }
   },
+  mounted() {
+    this.getFormData();
+  },
   methods: {
+    async getFormData(){
+      if(this.dataGetter && this.dataGetter.url) {
+        let { data } = await this.$http.get(this.dataGetter.url);
+        Object.assign(this.formModel, data);
+        if(typeof this.dataGetter.arrange === 'function') {
+          this.dataGetter.arrange(this.formModel);
+        }
+      }
+    },
     resetFields() {
       this.$refs.elForm.resetFields();
     },
