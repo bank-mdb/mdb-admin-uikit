@@ -128,7 +128,7 @@ export default {
         }
       })
     },
-    "dataGetter.url": function(val) {
+    "dataGetter.url": function() {
       this.getFormData();
     }
   },
