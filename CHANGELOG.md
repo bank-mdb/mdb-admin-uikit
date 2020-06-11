@@ -1,3 +1,9 @@
+## v1.0.82（2020-06-11）
+
+### Bug fixes
+
+-  dy-form 绑定dataGetter时，取消mounted生命周期函数中的接口调用
+
 ## v1.0.81（2020-06-11）
 
 ###   Features
