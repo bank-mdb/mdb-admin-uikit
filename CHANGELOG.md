@@ -1,3 +1,27 @@
+## v1.0.83（2020-06-11）
+
+### Bug fixes
+
+-  dy-form 编辑表单时不可编辑异常
+
+## v1.0.82（2020-06-11）
+
+### Bug fixes
+
+-  dy-form 绑定dataGetter时，取消mounted生命周期函数中的接口调用
+
+## v1.0.81（2020-06-11）
+
+###   Features
+
+- dy-form 新增dataGetter对象属性，用于编辑表单情况，含两个属性，url：接口地址，arrange：formModel => {}支持自己重新组装formModel某些属性
+
+## v1.0.80（2020-06-10）
+
+###  Bug Fixes
+
+- dy-form 避免直接修改formModel
+
 ## v1.0.79（2020-06-10）
 
 ###  Bug Fixes
