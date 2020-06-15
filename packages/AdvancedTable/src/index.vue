@@ -82,7 +82,11 @@ export default {
       type: Object,
       required: false
     },
-    beforeLoad: Function
+    beforeLoad: Function,
+    pageSize: {
+      type: Number,
+      default: 10
+    }
   },
   data() {
     return {
@@ -91,7 +95,7 @@ export default {
       mTotal: 0,
       mPager: {
         pageNo: 1,
-        pageSize: 10
+        pageSize: this.pageSize
       },
       mPagination: {
         background: true,
@@ -124,7 +128,7 @@ export default {
       if (!this.rules || (this.query && this.query["tab_index"])) return;
       const query = (this.$route && this.$route.query) || {};
       const pageNo = parseInt(query.pageNo) || 1;
-      const pageSize = parseInt(query.pageSize) || 10;
+      const pageSize = parseInt(query.pageSize) || this.pageSize;
       this.mPager = { pageNo: pageNo, pageSize: pageSize };
       delete query["pageNo"];
       delete query["pageSize"];
@@ -244,6 +248,10 @@ export default {
     },
     getData() {
       return this.mDataSource;
+    },
+    bindCellClick(row, column) {
+      this.$emit("cell-click", row, column);
+      this.$emit("action", column.property, row);
     },
     celldbclick(row, column, cell) {
       const copyValue = row[column.property];
