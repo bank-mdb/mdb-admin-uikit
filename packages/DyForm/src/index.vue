@@ -51,9 +51,8 @@ import dynamicItem from "./dynamicItem";
 import dynamicCol from "./dynamicCol";
 import dynamicMultiItems from "./dynamicMultiItems";
 import nonRenderFormItem from "./nonRenderFormItem";
-import { socrllToErrorMessageItem, mergeRequest } from "./utils/index.js";
+import { socrllToErrorMessageItem, mergeRequest, createFormModelByFormItems } from "./utils/index.js";
 import dyButton from "./DynamicButton/index.vue"
-import { createFormModelByFormItems } from "./utils/index.js"
 
 /*
 更新说明： 
@@ -116,6 +115,8 @@ export default {
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key])
+        } else if(typeof this.formModel[key] !== typeof ml[key]) {
+          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       })
     },
@@ -125,6 +126,8 @@ export default {
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key])
+        } else if(typeof this.formModel[key] !== typeof ml[key]) {
+          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       })
     },
@@ -146,6 +149,8 @@ export default {
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key]);
+        } else if(typeof this.formModel[key] !== typeof ml[key]) {
+          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       })
     }
