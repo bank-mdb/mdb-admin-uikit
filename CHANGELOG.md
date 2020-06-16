@@ -1,3 +1,9 @@
+## v1.0.86（2020-06-16）
+
+### Bug fixes
+
+- dy-form checkout 编辑异常情况
+
 ## v1.0.85（2020-06-16）
 
 ### Features
