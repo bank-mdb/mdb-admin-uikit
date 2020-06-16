@@ -1,3 +1,9 @@
+## v1.0.85（2020-06-16）
+
+### Features
+
+- dy-form 提交按钮不可见时仍可用 submitHandle 方法提交
+
 ## v1.0.84（2020-06-11）
 
 ### Features

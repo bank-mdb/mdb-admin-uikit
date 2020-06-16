@@ -51,7 +51,7 @@ import dynamicItem from "./dynamicItem";
 import dynamicCol from "./dynamicCol";
 import dynamicMultiItems from "./dynamicMultiItems";
 import nonRenderFormItem from "./nonRenderFormItem";
-import { socrllToErrorMessageItem } from "./utils/index.js";
+import { socrllToErrorMessageItem, mergeRequest } from "./utils/index.js";
 import dyButton from "./DynamicButton/index.vue"
 import { createFormModelByFormItems } from "./utils/index.js"
 
@@ -191,7 +191,12 @@ export default {
                   return;
                 }
               }
-              let res = await this.$refs.dyBtn.submit();
+              let res;
+              if(this.$refs.dyBtn) {
+                res = await this.$refs.dyBtn.submit();
+              } else {
+                res = await mergeRequest(this.apis, this);
+              }
               this.$emit("submit-success", res);
             } else {
               throw new Error("请设置提交方式 submitFunction 或 apis")
