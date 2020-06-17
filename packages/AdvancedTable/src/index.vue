@@ -38,7 +38,7 @@
         :hide-on-single-page="mPagination.hideOnSiglePage"
         @current-change="onPageIndexChange"
         @size-change="onPageSizeChange"
-        page-sizes="[5,10, 20, 30, 40, 50, 100]"
+        :page-sizes="[5, 10, 20, 30, 40, 50, 100]"
       ></el-pagination>
     </div>
   </div>

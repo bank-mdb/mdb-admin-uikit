@@ -1,3 +1,9 @@
+## v1.0.90（2020-06-17）
+
+### Features
+
+- AdvancedTable page-sizes 的属性增加
+
 ## v1.0.87（2020-06-16）
 
 ### Bug fixes
