@@ -4,7 +4,7 @@
  * @Description: file content
  -->
 <template>
-  <VTable @action="bindAction" :columns="columns" :data="tableData"></VTable>
+  <VTable @select="bindSelect" @action="bindAction" :columns="columns" :data="tableData"></VTable>
 </template>
 
 <script>
@@ -16,8 +16,8 @@ export default {
         {
           label: "日期",
           prop: "date",
-          formatter: value => {
-            return value;
+          format: row => {
+            return "<span class='tttt'>" + row.date + "</span>";
           }
         },
         { label: "姓名", prop: "name", tips: "hello" },

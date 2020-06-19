@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import TreeSelectDemo from './components/TreeSelectDemo'
-import VTableDemo from './components/VTableDemo'
-import SearchFormDemo from './components/SearchFormDemo'
-import DyFormDemo from './components/DyFormDemo'
-import PublicFunPanelDemo from './components/PublicFunPanelDemo'
-import DetailListDemo from './components/DetailListDemo'
-import DrawerMenuDemo from './components/DrawerMenuDemo'
+import TreeSelectDemo from "./components/TreeSelectDemo";
+import VTableDemo from "./components/VTableDemo";
+import SearchFormDemo from "./components/SearchFormDemo";
+import DyFormDemo from "./components/DyFormDemo";
+import PublicFunPanelDemo from "./components/PublicFunPanelDemo";
+import DetailListDemo from "./components/DetailListDemo";
+import DrawerMenuDemo from "./components/DrawerMenuDemo";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     TreeSelectDemo,
     VTableDemo,
@@ -34,9 +34,9 @@ export default {
     DyFormDemo,
     PublicFunPanelDemo,
     DetailListDemo,
-    DrawerMenuDemo,
-  },
-}
+    DrawerMenuDemo
+  }
+};
 </script>
 
 <style>
