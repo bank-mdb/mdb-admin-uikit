@@ -15,7 +15,8 @@
           type="primary"
           v-if="empty.action.text"
           @click="toAction"
-        >{{ empty.action.text }}</el-button>
+          >{{ empty.action.text }}</el-button
+        >
       </div>
     </template>
     <!-- checkbox -->
@@ -27,7 +28,13 @@
       </template>
     </el-table-column>
     <!-- index -->
-    <el-table-column v-if="hasIndex" type="index" width="80" label="序号" align="center" />
+    <el-table-column
+      v-if="hasIndex"
+      type="index"
+      width="80"
+      label="序号"
+      align="center"
+    />
     <!-- 数据显示区 -->
     <template v-for="(col, index) in columns">
       <!-- other -->
@@ -41,11 +48,13 @@
         :fixed="col.actions ? 'right' : col.fixed || false"
         show-overflow-tooltip
       >
-        <template v-if="!isMutiSelect" v-slot:header="scope">
-          {{scope.column.label}}
+        <template v-slot:header="scope">
+          {{ scope.column.label }}
           <el-tooltip
-            v-if="columns[scope.$index-1].tips"
-            :content="columns[scope.$index-1].tips"
+            v-if="columns[scope.$index - 1] && columns[scope.$index - 1].tips"
+            :content="
+              columns[scope.$index - 1] && columns[scope.$index - 1].tips
+            "
             placement="top"
           >
             <span class="el-icon-question"></span>
@@ -58,7 +67,12 @@
           </template>
           <!-- //NO2.自定义render -->
           <template v-else-if="col.render">
-            <colum-render :column="col" :row="scope.row" :render="col.render" :index="index"></colum-render>
+            <colum-render
+              :column="col"
+              :row="scope.row"
+              :render="col.render"
+              :index="index"
+            ></colum-render>
           </template>
           <template v-else-if="col.actions && col.actions.length > 0">
             <template v-for="(btn, idx) in col.actions">
@@ -70,7 +84,8 @@
                 style="margin:0px;padding: 0 4px;"
                 round
                 @click="btn.click(index, scope.row, scope)"
-              >{{ btn.label }}</el-button>
+                >{{ btn.label }}</el-button
+              >
               <el-button
                 v-else
                 :key="idx"
@@ -80,12 +95,9 @@
                 style="margin:0px;padding: 0 4px;"
                 v-show="btn.check(index, scope.row, scope)"
                 @click="btn.click(index, scope.row, scope)"
-              >{{ btn.label }}</el-button>
+                >{{ btn.label }}</el-button
+              >
             </template>
-          </template>
-          <!-- //NO3 动态插槽 -->
-          <template v-else-if="col.slot">
-            <slot :name="col.slot" :row="scope.row" :index="scope.$index" />
           </template>
           <template v-else>
             <span
@@ -103,9 +115,9 @@
 
 <script>
 // import columRender from "./ColumRender.js";
-import Vue from "vue";
+import Vue from 'vue'
 const columRender = {
-  name: "ColumRender",
+  name: 'ColumRender',
   functional: true,
   props: {
     row: Object,
@@ -113,93 +125,70 @@ const columRender = {
     index: Number,
     column: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   render: (h, ctx) => {
     const params = {
       row: ctx.props.row,
-      index: ctx.props.index
-    };
-    if (ctx.props.column) params.column = ctx.props.column;
-    return ctx.props.render(h, params);
-  }
-};
+      index: ctx.props.index,
+    }
+    if (ctx.props.column) params.column = ctx.props.column
+    return ctx.props.render(h, params)
+  },
+}
 export default {
-  name: "VTable",
+  name: 'VTable',
   inheritAttrs: false,
   components: { columRender },
   props: {
     hasIndex: {
       type: Boolean,
-      default: true
+      default: true,
     },
     columns: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     expand: {
       type: Object,
-      required: false
+      required: false,
     },
     empty: {
       type: Object,
       default: function() {
         return {
-          icon: "empty",
-          message: "暂无数据！",
-          action: { text: "", link: "" }
-        };
-      }
-    }
+          icon: 'empty',
+          message: '暂无数据！',
+          action: { text: '', link: '' },
+        }
+      },
+    },
   },
   data() {
     return {
       mRowSelected: [],
       mDataSource: [],
-      sortOrders: ["DESC", "ASC"]
-    };
+      sortOrders: ['DESC', 'ASC'],
+    }
+  },
+  mounted() {
+    console.log('mounted: ', this.hasNoRander)
   },
   methods: {
-    handleRenderHeader(h, { column, $index }) {
-      let temp = this.columns[$index - 1];
-      if (!temp["tips"]) {
-        return column.label;
-      } else {
-        return [
-          column.label,
-          h(
-            "el-tooltip",
-            {
-              props: {
-                content: temp.tips,
-                placement: "top"
-              }
-            },
-            [
-              h("span", {
-                class: {
-                  "el-icon-question": true
-                }
-              })
-            ]
-          )
-        ];
-      }
-    },
     bindActionsClick(prop, row) {
-      this.$emit("action", prop, row);
+      this.$emit('action', prop, row)
     },
     toAction() {
       if (this.empty && this.empty.action.link) {
-        this.$router.push({ path: this.empty.action.link });
+        this.$router.push({ path: this.empty.action.link })
       }
     },
     /**
      * @description: 用于多选表格，切换所有行的选中状态
      */
     toggleAllSelected() {
-      this.$refs.vTable.toggleAllSelection();
+      this.$refs.vTable.toggleAllSelection()
     },
 
     /**
@@ -208,10 +197,10 @@ export default {
      */
     updateSelected(selectedRows) {
       if (selectedRows) {
-        this.mRowSelected = selectedRows;
-        selectedRows.forEach(row => {
-          this.$refs.vTable.toggleRowSelection(row);
-        });
+        this.mRowSelected = selectedRows
+        selectedRows.forEach((row) => {
+          this.$refs.vTable.toggleRowSelection(row)
+        })
       }
     },
     /**
@@ -219,23 +208,23 @@ export default {
      */
     clearSelected() {
       if (this.mRowSelected) {
-        this.mRowSelected = [];
-        this.$refs.vTable.clearSelection();
+        this.mRowSelected = []
+        this.$refs.vTable.clearSelection()
       }
     },
     filterColumn(value, col, column, index) {
-      const columsAvgWidth = this.columsWidth;
-      const columnWidth = this.columns[index]["width"] || 0;
+      const columsAvgWidth = this.columsWidth
+      const columnWidth = this.columns[index]['width'] || 0
       if (value) {
         if (/^(\d{4})(-)(\d{2})(-)(\d{2})$/.test(value) && columnWidth < 100) {
           //date
-          Vue.set(this.columns[index], "width", 100);
+          Vue.set(this.columns[index], 'width', 100)
         } else if (
           /^(\d{4})(-)(\d{2})(-)(\d{2})\W+/.test(value) &&
           columnWidth < 160
         ) {
           //datetime
-          Vue.set(this.columns[index], "width", 160);
+          Vue.set(this.columns[index], 'width', 160)
         } else if (
           /[\u4E00-\u9FA5]+/.test(value) &&
           columsAvgWidth < 160 &&
@@ -244,9 +233,9 @@ export default {
           //中文
           Vue.set(
             this.columns[index],
-            "width",
+            'width',
             Math.max(String(value).length * 20, 160)
-          );
+          )
         } else if (
           /^\w+$/.test(value) &&
           columsAvgWidth < String(value).length * 11 &&
@@ -255,16 +244,16 @@ export default {
           //纯数字+字母
           Vue.set(
             this.columns[index],
-            "width",
+            'width',
             Math.max(String(value).length * 11, 160)
-          );
+          )
         } else if (
           /^[0-9.]*$/.test(value) &&
           columsAvgWidth < 160 &&
           columnWidth < 160
         ) {
           //纯数字
-          Vue.set(this.columns[index], "width", 160);
+          Vue.set(this.columns[index], 'width', 160)
         } else if (
           /^[a-zA-Z]+$/.test(value) &&
           columsAvgWidth < String(value).length * 10 &&
@@ -272,39 +261,44 @@ export default {
         ) {
           Vue.set(
             this.columns[index],
-            "width",
+            'width',
             Math.max(160, String(value).length * 10)
-          );
+          )
         }
       }
 
       if (col.filter) {
-        const globalFilter = Vue.filter(col.filter);
+        const globalFilter = Vue.filter(col.filter)
         if (globalFilter) {
-          return globalFilter(value);
+          return globalFilter(value)
         }
       }
-      return value;
-    }
+      return value
+    },
   },
   computed: {
     //根据是否设置了事件，来显示多选
     hasData() {
-      return this.$attrs.data.length > 0;
+      return this.$attrs.data.length > 0
+    },
+    hasNoRander() {
+      let re = this.render === null || this.render === undefined
+      console.log('hasNoRander: ', re)
+      return this.render === null || this.render === undefined
     },
     isMutiSelect: function() {
       return (
-        this.$listeners["selection-change"] ||
+        this.$listeners['selection-change'] ||
         this.$listeners.selectionAll ||
         this.$listeners.select
-      );
+      )
     },
     columsWidth: function() {
-      const bodyWidth = document.body.clientWidth;
-      return (bodyWidth - 200) / this.columns.length;
-    }
-  }
-};
+      const bodyWidth = document.body.clientWidth
+      return (bodyWidth - 200) / this.columns.length
+    },
+  },
+}
 </script>
 <style lang="postcss" scoped>
 .vtable-empty {
