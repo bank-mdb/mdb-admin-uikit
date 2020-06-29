@@ -1,3 +1,9 @@
+## v1.0.93（2020-06-17）
+
+### Features
+
+- dy-form 增加 validate-failed 事件
+
 ## v1.0.92（2020-06-19）
 
 ### Bug fixes
