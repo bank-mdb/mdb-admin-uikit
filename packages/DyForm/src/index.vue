@@ -116,7 +116,7 @@ export default {
         if(!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key])
         } else if(typeof this.formModel[key] !== typeof ml[key]) {
-          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
+          this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       })
     },
@@ -127,7 +127,7 @@ export default {
         if(!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key])
         } else if(typeof this.formModel[key] !== typeof ml[key]) {
-          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
+          this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       })
     },
@@ -150,7 +150,7 @@ export default {
         if(!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key]);
         } else if(typeof this.formModel[key] !== typeof ml[key]) {
-          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
+          this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       })
     }
