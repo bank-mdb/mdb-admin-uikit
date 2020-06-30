@@ -47,9 +47,20 @@
         :sortable="col.sortable ? 'custom' : false"
         :fixed="col.actions ? 'right' : col.fixed || false"
         show-overflow-tooltip
-        :render-header="handleRenderHeader"
       >
-        <template slot-scope="scope">
+        <template v-slot:header="scope">
+          {{ scope.column.label }}
+          <el-tooltip
+            v-if="columns[scope.$index - 1] && columns[scope.$index - 1].tips"
+            :content="
+              columns[scope.$index - 1] && columns[scope.$index - 1].tips
+            "
+            placement="top"
+          >
+            <span class="el-icon-question"></span>
+          </el-tooltip>
+        </template>
+        <template v-slot:default="scope">
           <!-- //NO1.formatter -->
           <template v-if="col.formatter">
             <div v-html="col.formatter(scope.row[col.prop], scope.row)"></div>
@@ -87,10 +98,6 @@
                 >{{ btn.label }}</el-button
               >
             </template>
-          </template>
-          <!-- //NO3 动态插槽 -->
-          <template v-else-if="col.slot">
-            <slot :name="col.slot" :row="scope.row" :index="scope.$index" />
           </template>
           <template v-else>
             <span
@@ -165,33 +172,10 @@ export default {
       sortOrders: ['DESC', 'ASC'],
     }
   },
+  mounted() {
+    console.log('mounted: ', this.hasNoRander)
+  },
   methods: {
-    handleRenderHeader(h, { column, $index }) {
-      let temp = this.columns[$index - 1]
-      if (!temp['tips']) {
-        return column.label
-      } else {
-        return [
-          column.label,
-          h(
-            'el-tooltip',
-            {
-              props: {
-                content: temp.tips,
-                placement: 'top',
-              },
-            },
-            [
-              h('span', {
-                class: {
-                  'el-icon-question': true,
-                },
-              }),
-            ]
-          ),
-        ]
-      }
-    },
     bindActionsClick(prop, row) {
       this.$emit('action', prop, row)
     },
@@ -296,6 +280,11 @@ export default {
     //根据是否设置了事件，来显示多选
     hasData() {
       return this.$attrs.data.length > 0
+    },
+    hasNoRander() {
+      let re = this.render === null || this.render === undefined
+      console.log('hasNoRander: ', re)
+      return this.render === null || this.render === undefined
     },
     isMutiSelect: function() {
       return (

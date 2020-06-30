@@ -1,12 +1,6 @@
 <template>
   <div class="dy-form-panel">
-    <el-form
-      ref="elForm"
-      :model="formModel"
-      v-bind="$attrs"
-      v-on="$listeners"
-      class="dy-form"
-    >
+    <el-form ref="elForm" :model="formModel" v-bind="$attrs" v-on="$listeners" class="dy-form">
       <el-row
         v-for="(row, index) in formItems"
         :key="index"
@@ -34,16 +28,20 @@
             "
             :options="formItem"
           ></dynamic-multi-items>
-          <dynamic-col
-            v-else
-            :options="formItem"
-            v-bind="$attrs"
-            v-on="$listeners"
-          ></dynamic-col>
+          <dynamic-col v-else :options="formItem" v-bind="$attrs" v-on="$listeners"></dynamic-col>
         </div>
       </el-row>
     </el-form>
-    <dy-button ref="dyBtn" :model="formModel" type="primary" :loading="loading" :apis="apis" v-if="showSubmitButton" class="submit-button" @click="submitHandle">{{submitButtonContent}}</dy-button>
+    <dy-button
+      ref="dyBtn"
+      :model="formModel"
+      type="primary"
+      :loading="loading"
+      :apis="apis"
+      v-if="showSubmitButton"
+      class="submit-button"
+      @click="submitHandle"
+    >{{submitButtonContent}}</dy-button>
   </div>
 </template>
 <script>
@@ -51,8 +49,12 @@ import dynamicItem from "./dynamicItem";
 import dynamicCol from "./dynamicCol";
 import dynamicMultiItems from "./dynamicMultiItems";
 import nonRenderFormItem from "./nonRenderFormItem";
-import { socrllToErrorMessageItem, mergeRequest, createFormModelByFormItems } from "./utils/index.js";
-import dyButton from "./DynamicButton/index.vue"
+import {
+  socrllToErrorMessageItem,
+  mergeRequest,
+  createFormModelByFormItems
+} from "./utils/index.js";
+import dyButton from "./DynamicButton/index.vue";
 
 /*
 更新说明： 
@@ -68,7 +70,7 @@ export default {
     dynamicMultiItems,
     dyButton
   },
-  data(){
+  data() {
     return {
       nonRenderFormItemData: nonRenderFormItem,
       loading: false,
@@ -105,12 +107,12 @@ export default {
         arrange: formModel => {}  在formModel对象上对返回数据重新处理，如果有必要的话
       }
     */
-    dataGetter: Object, 
+    dataGetter: Object
   },
   watch: {
     model: function(val) {
       let ml = {};
-      createFormModelByFormItems(this.formItems, ml)
+      createFormModelByFormItems(this.formItems, ml);
       this.formModel = val;
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
@@ -118,52 +120,52 @@ export default {
         } else if(typeof this.formModel[key] !== typeof ml[key]) {
           this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
-      })
+      });
     },
     formItems: function(val) {
       let ml = {};
-      createFormModelByFormItems(val, ml)
+      createFormModelByFormItems(val, ml);
       Object.keys(ml).forEach(key => {
         if(!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key])
         } else if(typeof this.formModel[key] !== typeof ml[key]) {
           this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
-      })
+      });
     },
     "dataGetter.url": function() {
       this.getFormData();
     }
   },
-  beforeCreate(){
+  beforeCreate() {
     // 拿到在父组件注册过的组件，这里不清楚上面还嵌套了多少层，目前只取上一层的局部注册组件
-    Object.assign(this.$options.components, this.$parent.$options.components)
+    Object.assign(this.$options.components, this.$parent.$options.components);
   },
-  created(){
+  created() {
     let ml = {};
     createFormModelByFormItems(this.formItems, ml);
-    if(Object.keys(this.formModel).length === 0) {
+    if (Object.keys(this.formModel).length === 0) {
       this.formModel = ml;
     } else {
       // 如果model只传了部分属性，将其他属性补全
       Object.keys(ml).forEach(key => {
-        if(!(key in this.formModel)) {
+        if (!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key]);
         } else if(typeof this.formModel[key] !== typeof ml[key]) {
           this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
-      })
+      });
     }
   },
   mounted() {
     //this.getFormData(); 监听到dataGetter.url有变化再调用查询接口，防止多次调用查询接口
   },
   methods: {
-    async getFormData(){
-      if(this.dataGetter && this.dataGetter.url) {
+    async getFormData() {
+      if (this.dataGetter && this.dataGetter.url) {
         let { data } = await this.$http.get(this.dataGetter.url);
         Object.assign(this.formModel, data);
-        if(typeof this.dataGetter.arrange === 'function') {
+        if (typeof this.dataGetter.arrange === "function") {
           this.dataGetter.arrange(this.formModel);
         }
       }
@@ -182,41 +184,42 @@ export default {
     clearValidate() {
       this.$refs.elForm.clearValidate();
     },
-    submitHandle(){
+    submitHandle() {
       this.$refs.elForm.validate(async result => {
-        if(result) {
+        if (result) {
           try {
-            if(typeof this.submitFunction === "function") {
+            if (typeof this.submitFunction === "function") {
               this.loading = true;
               this.submitFunction();
-            } else if(this.apis) {
-              if(typeof this.beforeSubmit === "function") {
-                if(!this.beforeSubmit()) {
+            } else if (this.apis) {
+              if (typeof this.beforeSubmit === "function") {
+                if (!this.beforeSubmit()) {
                   // 不允许提交，直接返回
                   return;
                 }
               }
               let res;
-              if(this.$refs.dyBtn) {
+              if (this.$refs.dyBtn) {
                 res = await this.$refs.dyBtn.submit();
               } else {
                 res = await mergeRequest(this.apis, this);
               }
               this.$emit("submit-success", res);
             } else {
-              throw new Error("请设置提交方式 submitFunction 或 apis")
-            }  
-          } catch(err) {
+              throw new Error("请设置提交方式 submitFunction 或 apis");
+            }
+          } catch (err) {
             console.log(err);
             this.$emit("submit-failed", err);
           }
         } else {
+          this.$emit("validate-failed");
           socrllToErrorMessageItem();
         }
       });
     }
   }
-}
+};
 </script>
 <style scoped>
 .dy-form-panel {

@@ -4,67 +4,78 @@
  * @Description: file content
  -->
 <template>
-  <VTable @action="bindAction" :columns="columns" :data="tableData"></VTable>
+  <VTable
+    :expand="expands"
+    @action="bindAction"
+    :columns="columns"
+    :data="tableData"
+    @select="bindSelect"
+  ></VTable>
 </template>
 
 <script>
 export default {
-  name: "vtable-demo",
+  name: 'vtable-demo',
   data() {
     return {
+      expands: {
+        render: function(h) {
+          return h('span', 'hlll')
+        },
+      },
       columns: [
         {
-          label: "日期",
-          prop: "date",
-          formatter: value => {
-            return value;
-          }
+          label: '日期',
+          prop: 'date',
+          format: (row) => {
+            return "<span class='tttt'>" + row.date + '</span>'
+          },
         },
-        { label: "姓名", prop: "name", tips: "hello" },
-        { label: "地址", prop: "address" },
+        { label: '姓名', prop: 'name', tips: 'hello' },
+        { label: '地址', prop: 'address' },
         {
-          label: "地址",
+          label: '地址',
           actions: [
             {
-              label: "查看",
-              prop: "view"
+              label: '查看',
+              prop: 'view',
             },
             {
-              label: "编辑",
-              prop: "edit"
-            }
-          ]
-        }
+              label: '编辑',
+              prop: 'edit',
+            },
+          ],
+        },
       ],
       tableData: [
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄',
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄',
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄',
         },
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
-    };
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄',
+        },
+      ],
+    }
   },
   methods: {
     bindSelect() {},
     bindAction(prop, row) {
-      console.log("bindAction", prop, row);
-    }
-  }
-};
+      console.log('bindAction', prop, row)
+    },
+  },
+}
 </script>

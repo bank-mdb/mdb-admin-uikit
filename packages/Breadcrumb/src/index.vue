@@ -5,7 +5,7 @@
       <template v-for="(item, index) in breadList">
         <el-breadcrumb-item v-if="item.meta.title" :key="index">
           <span
-            class="link-point"
+            :class="index === breadList.length - 1 ? '' : 'link-point'"
             @click="toLink(item.fullPath, item.pulbicPath)"
             >{{ item.meta.title }}</span
           >
