@@ -45,7 +45,7 @@
         :label="col.label"
         :width="col.width || 'auto'"
         :sortable="col.sortable ? 'custom' : false"
-        :fixed="col.actions ? 'right' : col.fixed || false"
+        :fixed="col.actions ? (col.fixed == 'false' ? false : 'right') : false"
         show-overflow-tooltip
       >
         <template v-slot:header="scope">
