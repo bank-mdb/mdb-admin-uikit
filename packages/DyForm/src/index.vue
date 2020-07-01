@@ -115,10 +115,10 @@ export default {
       createFormModelByFormItems(this.formItems, ml);
       this.formModel = val;
       Object.keys(ml).forEach(key => {
-        if (!(key in this.formModel)) {
-          this.$set(this.formModel, key, ml[key]);
-        } else if (typeof this.formModel[key] !== typeof ml[key]) {
-          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
+        if(!(key in this.formModel)) {
+          this.$set(this.formModel, key, ml[key])
+        } else if(typeof this.formModel[key] !== typeof ml[key]) {
+          this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       });
     },
@@ -126,10 +126,10 @@ export default {
       let ml = {};
       createFormModelByFormItems(val, ml);
       Object.keys(ml).forEach(key => {
-        if (!(key in this.formModel)) {
-          this.$set(this.formModel, key, ml[key]);
-        } else if (typeof this.formModel[key] !== typeof ml[key]) {
-          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
+        if(!(key in this.formModel)) {
+          this.$set(this.formModel, key, ml[key])
+        } else if(typeof this.formModel[key] !== typeof ml[key]) {
+          this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       });
     },
@@ -151,8 +151,8 @@ export default {
       Object.keys(ml).forEach(key => {
         if (!(key in this.formModel)) {
           this.$set(this.formModel, key, ml[key]);
-        } else if (typeof this.formModel[key] !== typeof ml[key]) {
-          this.formModel[key] = ml[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
+        } else if(typeof this.formModel[key] !== typeof ml[key]) {
+          this.formModel[key] = ml[key] || this.formModel[key]; // 如果formModel中属性类型和通过配置生成对象属性是否一致，如果不一致以配置生成为准
         }
       });
     }
