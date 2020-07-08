@@ -4,6 +4,12 @@
 
 - searchForm 的远程搜索增加本地储存；
 
+## v1.0.99（2020-07-08）
+
+### Features
+
+- dy-form 增加 rowGutter 属性，设置表单各列行间距
+
 ## v1.0.98（2020-06-17）
 
 ### Features
