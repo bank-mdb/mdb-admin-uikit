@@ -4,6 +4,7 @@
       <el-row
         v-for="(row, index) in formItems"
         :key="index"
+        :gutter="rowGutter"
         v-bind:class="
           row.length > 0 && row[0].rowClass
             ? row[0].rowClass
@@ -107,7 +108,8 @@ export default {
         arrange: formModel => {}  在formModel对象上对返回数据重新处理，如果有必要的话
       }
     */
-    dataGetter: Object
+    dataGetter: Object,
+    rowGutter: Number,
   },
   watch: {
     model: function(val) {
