@@ -5,11 +5,11 @@
       <el-scrollbar :native="false" :noresize="false" tag="div">
         <div :style="{ maxHeight: `${panelHeight}px` }">
           <PanelItem
-            :content="item.content"
+            :content="item.children"
             :hideEmptyItem="item.hideEmptyItem"
             :key="index"
             :title="item.title"
-            v-for="(item, index) in features"
+            v-for="(item, index) in menus"
             v-on="$listeners"
           ></PanelItem>
         </div>
@@ -18,95 +18,59 @@
   </div>
 </template>
 <script>
-import PanelItem from './PanelItem.vue'
-import PanelSearch from './PanelSearch.vue'
+import PanelItem from "./PanelItem.vue";
+import PanelSearch from "./PanelSearch.vue";
 export default {
-  name: 'PublicFunPanel',
+  name: "PublicFunPanel",
   components: {
     PanelItem,
-    PanelSearch,
+    PanelSearch
   },
   provide() {
     return {
-      publicFunPanel: this,
-    }
+      publicFunPanel: this
+    };
   },
   props: {
-    functions: {
+    menus: {
       type: Array,
-      default: () => [],
-    },
-    productPrefixFile: {
-      type: Array,
-      default: () => [],
+      default: () => []
     },
     // 用于调整高度
     adjustHeight: {
       type: Number,
-      default: 140,
-    },
+      default: 140
+    }
   },
   data() {
     return {
-      panelHeight: 0,
-    }
-  },
-  computed: {
-    authMenuList() {
-      return this.functions.map((item) => {
-        return {
-          ...item,
-          path: `/${item.url.replace(/_+/g, '-')}`,
-        }
-      })
-    },
-    features() {
-      let CollectedFeatures = this.authMenuList.filter(
-        (item) => item.icon === 'true'
-      )
-      const otherFeatures = this.productPrefixFile.map((prefixItem) => {
-        let filterFeatures = this.authMenuList.filter((item) =>
-          item.id.includes(prefixItem.prefix)
-        )
-        return {
-          title: prefixItem.title,
-          content: filterFeatures,
-        }
-      })
-      return [
-        {
-          title: '我的收藏',
-          content: CollectedFeatures,
-          hideEmptyItem: false,
-        },
-        ...otherFeatures,
-      ]
-    },
+      panelHeight: 0
+    };
   },
   methods: {
     handleResize() {
-      const windowHeight = window.innerHeight
-      const headerHeight = 70
-      const footerHeight = 90
-      const marginValue = 15
-      const publicFunPanelSearchHeight = 90
+      const windowHeight = window.innerHeight;
+      const headerHeight = 70;
+      const footerHeight = 90;
+      const marginValue = 15;
+      const publicFunPanelSearchHeight = 90;
       this.panelHeight =
         windowHeight -
         headerHeight -
         footerHeight -
         publicFunPanelSearchHeight -
         marginValue +
-        this.adjustHeight
-    },
+        this.adjustHeight;
+    }
   },
   mounted() {
-    this.handleResize()
-    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
-  },
-}
+    window.removeEventListener("resize", this.handleResize);
+  }
+};
 </script>
 <style lang="scss">
 .public-fun-panel {

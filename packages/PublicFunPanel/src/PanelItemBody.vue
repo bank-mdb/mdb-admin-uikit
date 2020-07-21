@@ -1,47 +1,38 @@
 <template>
   <div class="panel-item-body">
-    <div class="text" @click="handleGoToPage(content)">
-      {{ content.id }} {{ content.title }}
-    </div>
+    <div class="text" @click="handleGoToPage(content)">{{ content.id }} {{ content.title }}</div>
     <div class="icon" @click="handleCollected">
-      <i
-        :class="['el-icon-star-on', { isCollected: content.icon === 'true' }]"
-      ></i>
+      <i :class="['el-icon-star-on', { isCollected: content.icon === 'true' }]"></i>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'PanelItemBody',
-  inject: ['publicFunPanel'],
+  name: "PanelItemBody",
+  inject: ["publicFunPanel"],
   props: {
-    content: Object,
+    content: Object
   },
   methods: {
     async handleCollected() {
       this.$emit(
-        'collectionChange',
+        "collectionChange",
         this.content.id,
-        this.content.icon === 'true'
-      )
+        this.content.icon === "true"
+      );
     },
     handleGoToPage(content) {
-      let [prefixFile = {}] = this.publicFunPanel.productPrefixFile.filter(
-        (item) => content.id.includes(item.prefix)
-      )
-      let base = this.$router.options.base
-      base = base === '/' ? base : base.substr(0, base.length - 1)
-      if (prefixFile.publicPath === base) {
-        this.$router.push({ path: content.path })
+      let base = this.$router.options.base;
+      base = base === "/" ? base : base.substr(0, base.length - 1);
+      if (content.publicPath === base) {
+        this.$router.push({ path: "/" + content.path });
       } else {
-        let publicPath =
-          prefixFile.publicPath === '/' ? '' : prefixFile.publicPath
-        window.location.href =
-          window.location.origin + publicPath + content.path
+        let publicPath = content.publicPath === "/" ? "" : content.publicPath;
+        window.location.href = `${window.location.origin}${publicPath}/${content.path}`;
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .panel-item-body {

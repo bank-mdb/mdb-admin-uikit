@@ -106,7 +106,12 @@ export default {
     };
   },
   mounted() {
-    const queryParam = this.$route.query;
+    let queryParam = {};
+    try {
+      queryParam = this.$route.query;
+    } catch (e) {
+      console.warn("this.$router is undefined");
+    }
     this.rules.forEach(item => {
       let defaultValue = "";
       let field = item.field; //Sting,Array,
@@ -190,9 +195,16 @@ export default {
     parseOption(option, item) {
       try {
         if (item.filterable) {
+          let queryParam = {};
+          try {
+            queryParam = this.$route.query;
+          } catch (e) {
+            console.warn("this.$route is undefined");
+            queryParam = {};
+          }
           /**fixed:远程搜索的数据，在刷新页面的时候存在数据丢失； */
           const fieldOptionsKey = item.field + "_options";
-          let hasValue = this.$route.query[item.field];
+          let hasValue = queryParam[item.field];
           if (Array.isArray(option) && option.length === 0 && hasValue) {
             let temp = window.localStorage.getItem(fieldOptionsKey);
             option = JSON.parse(temp);
