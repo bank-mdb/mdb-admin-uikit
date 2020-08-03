@@ -15,6 +15,14 @@
             :placeholder="item.placeholder"
             @keyup.enter.native="onSubmit"
           ></el-input>
+          <!-- input -->
+          <el-date-picker
+            v-else-if="item.type == 'monthrange'"
+            v-model.trim="ruleForm[item.field]"
+            type="monthrange"
+            range-separator="至"
+            value-format="yyyy-MM-dd HH:mm:ss"
+          ></el-date-picker>
 
           <!-- select -->
           <el-select
@@ -96,13 +104,13 @@ export default {
   name: "SearchForm",
   props: {
     rules: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   data() {
     return {
       ruleForm: {},
-      selectOptions: []
+      selectOptions: [],
     };
   },
   mounted() {
@@ -112,10 +120,10 @@ export default {
     } catch (e) {
       console.warn("this.$router is undefined");
     }
-    this.rules.forEach(item => {
+    this.rules.forEach((item) => {
       let defaultValue = "";
       let field = item.field; //Sting,Array,
-      if (item.type === "date") {
+      if (item.type === "date" || item.type === "monthrange") {
         if (typeof item.field === "string") {
           //兼容旧版
           item.field = ["startDate", "endDate"];
@@ -128,7 +136,7 @@ export default {
           const today = [
             date.getFullYear(),
             date.getMonth(),
-            date.getDate()
+            date.getDate(),
           ].join("-");
           defaultValue = [today, today];
         }
@@ -156,7 +164,7 @@ export default {
     },
     getData() {
       let queryParm = {};
-      Object.keys(this.ruleForm).forEach(key => {
+      Object.keys(this.ruleForm).forEach((key) => {
         let value = this.ruleForm[key];
         if (Array.isArray(value)) {
           if (value.length === 2 && /00:00:00$/.test(value[1])) {
@@ -176,7 +184,7 @@ export default {
     },
     resetForm() {
       //fixed:对于 date，cascader 的value必须是array
-      Object.keys(this.ruleForm).forEach(key => {
+      Object.keys(this.ruleForm).forEach((key) => {
         let value = this.ruleForm[key];
         if (Array.isArray(value)) {
           let isTypeDate = /00:00:00$/.test(value[0]);
@@ -226,7 +234,7 @@ export default {
       for (let key in option) {
         options.push({
           value: key,
-          label: option[key]
+          label: option[key],
         });
       }
       return options;
@@ -247,8 +255,8 @@ export default {
     rangePlaceHolder(placeholder, index) {
       if (Array.isArray(placeholder)) return placeholder[index];
       return placeholder;
-    }
-  }
+    },
+  },
 };
 </script>
 

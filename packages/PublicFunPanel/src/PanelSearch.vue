@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     authMenuList() {
-      return this.publicFunPanel.authMenuList
+      return this.publicFunPanel.menus
     },
   },
   methods: {
@@ -64,12 +64,17 @@ export default {
       this.showResult = true
     },
     handleSearchChange() {
-      const result = this.authMenuList.filter(
-        (item) =>
-          this.keyword &&
-          (item.title.includes(this.keyword) ||
-            item.id.toLowerCase().includes(this.keyword.toLowerCase()))
-      )
+      const search = (item) => {
+        return (
+          item.title.includes(this.keyword) ||
+          item.id.toLowerCase().includes(this.keyword.toLowerCase())
+        )
+      }
+      let result = []
+      this.authMenuList.forEach((item) => {
+        let temp = item.children.filter(search)
+        result = [...result, ...temp]
+      })
       this.result = result
     },
   },
@@ -110,7 +115,7 @@ export default {
     }
     .panel-wrapper {
       max-height: 500px;
-      padding: 0 10px;
+      padding: 10px 10px;
     }
   }
 }
