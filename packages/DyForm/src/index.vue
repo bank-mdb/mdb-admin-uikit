@@ -239,4 +239,10 @@ export default {
   margin-top: 50px;
 }
 </style>
+<style>
+.dy-form-panel .el-form--label-top .el-form-item__label {
+  padding: 0px 0px;
+}
+</style>
+
 
