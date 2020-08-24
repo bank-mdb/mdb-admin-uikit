@@ -109,7 +109,10 @@ export default {
       }
     */
     dataGetter: Object,
-    rowGutter: Number,
+    rowGutter: {
+      type: Number,
+      default: 20
+    },
   },
   watch: {
     model: function(val) {
